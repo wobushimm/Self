@@ -1,0 +1,10 @@
+interface:
+  display_name: "人力智算AI助手"
+  short_description: "本地读取人员底表，执行人员查询、预算分析和招聘优化"
+  default_prompt: "Use $hr-intelligence-dify to analyze personnel data from an uploaded Excel workbook."
+  version: "0.3.0"
+  tools:
+    - invoke_hr_assistant
+    - query_personnel_info
+    - generate_cost_budget
+    - generate_recruitment_plan

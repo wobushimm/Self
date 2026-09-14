@@ -1,0 +1,2 @@
+# 本地 Excel 读写
+openpyxl>=3.1,<4

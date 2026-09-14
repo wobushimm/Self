@@ -1,0 +1,2568 @@
+app:
+  description: 保留原有查询/单业务线导出，招聘方案支持紧凑参数指定与人工成本自动重算。
+  icon: 🤖
+  icon_background: '#FBE8FF'
+  icon_type: emoji
+  mode: advanced-chat
+  name: 人力智算AI助手
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: samanhappy/excel_process:0.0.3@4e912c728cffc52e494ec9e709e9085eb5ab257f4e02e586b8da3abf314eb789
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: bowenliang123/md_exporter:3.6.9@3f027d63e80b44d5d5a9f706871afaef37905b8f8a89a2d152dc530211a8acb1
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/ollama:1.0.1@9ad1c8280d22a378ad5fcf7ec6d5d0eceed4732301abd276da5652751be6aaed
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      - document
+      allowed_file_upload_methods:
+      - remote_url
+      - local_file
+      enabled: true
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        knowledge_file_size_limit: 15
+        single_chunk_attachment_limit: 10
+        skill_file_size_limit: 50
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1778747152378-source-1784171411058-target
+      selected: false
+      source: '1778747152378'
+      sourceHandle: source
+      target: '1784171411058'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1778747174285-source-1784770069384
+      source: '1778747174285'
+      sourceHandle: source
+      target: '1784770069384'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1783912721113-source-1778747174285-target
+      selected: false
+      source: '1783912721113'
+      sourceHandle: source
+      target: '1778747174285'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1784166032256-source-route_intent
+      source: '1784166032256'
+      sourceHandle: source
+      target: route_intent
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1784166258491-source-1783912721113-target
+      selected: false
+      source: '1784166258491'
+      sourceHandle: source
+      target: '1783912721113'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: code
+      id: 1784171411058-source-1784166032256-target
+      selected: false
+      source: '1784171411058'
+      sourceHandle: source
+      target: '1784166032256'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1784186520243-source-1783912721113-target
+      selected: false
+      source: '1784186520243'
+      sourceHandle: source
+      target: '1783912721113'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1784186520243-source-1784166258491-target
+      selected: false
+      source: '1784186520243'
+      sourceHandle: source
+      target: '1784166258491'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: cost_answer-source-budget_file_answer
+      source: cost_answer
+      sourceHandle: source
+      target: budget_file_answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: cost_query-source-cost_answer
+      source: cost_query
+      sourceHandle: source
+      target: cost_answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: hire_build-source-hire_export-target
+      selected: false
+      source: hire_build
+      sourceHandle: source
+      target: hire_export
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: hire_export-source-hire_answer-target
+      selected: false
+      source: hire_export
+      sourceHandle: source
+      target: hire_answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: hire_llm-source-hire_build-target
+      selected: false
+      source: hire_llm
+      sourceHandle: source
+      target: hire_build
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: hire_prepare-source-hire_llm-target
+      selected: false
+      source: hire_prepare
+      sourceHandle: source
+      target: hire_llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: route_branch-cost-cost_query
+      source: route_branch
+      sourceHandle: cost
+      target: cost_query
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: route_branch-hire-hire_prepare-target
+      selected: false
+      source: route_branch
+      sourceHandle: hire
+      target: hire_prepare
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: route_branch-info-1784166258491
+      source: route_branch
+      sourceHandle: info
+      target: '1784166258491'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: route_branch-info-1784186520243
+      source: route_branch
+      sourceHandle: info
+      target: '1784186520243'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: route_intent-source-route_branch
+      source: route_intent
+      sourceHandle: source
+      target: route_branch
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 上传人员输入底表（0903 导入区）
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hide: false
+          hint: 按 0903 样例上传 A:AI 导入区；新增 AE:AI 五个参数用于控制在岗月数、绩效、社保上涨和工会比例。
+          label: 完整人员信息底表
+          max_length: 1
+          options: []
+          placeholder: ''
+          required: true
+          type: file
+          variable: excel_file
+      height: 109
+      id: '1778747152378'
+      position:
+        x: -2070.415608093387
+        y: -904.8792489849982
+      positionAbsolute:
+        x: -2070.415608093387
+        y: -904.8792489849982
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "import json\n\n\ndef main(status=None, message=None, count=0, record=None,\
+          \ query=None):\n    try:\n       if isinstance(record, str):\n        record\
+          \ = json.loads(record) if record.strip() else []\n       else:\n       \
+          \ record = record or []\n    except Exception:\n        record = []\n\n\
+          \    status = str(status or \"\")\n    message = str(message or \"\")\n\n\
+          \    try:\n        count = int(count or 0)\n    except Exception:\n    \
+          \    count = 0\n\n    if status == \"success\":\n        lines = [f\"查询成功，符合条件的人数：{count}\
+          \ 人。\"]\n        if not record:\n            return {\"text\": \"\\n\".join(lines)}\n\
+          \n        # One person: display the returned safe fields as a concise profile.\n\
+          \        if count == 1 and len(record) == 1:\n            lines.append(\"\
+          \\n人员信息：\")\n            for field, value in record[0].items():\n      \
+          \          display = str(value).strip() if value not in (None, \"\") else\
+          \ \"暂无数据\"\n                lines.append(f\"- {field}：{display}\")\n   \
+          \         return {\"text\": \"\\n\".join(lines)}\n\n        # Multiple people:\
+          \ list every matched person once, without repeated status/count columns.\n\
+          \        lines.append(\"\\n人员名单：\")\n        for index, item in enumerate(record,\
+          \ start=1):\n            name = str(item.get(\"姓名\") or item.get(\"员工姓名\"\
+          ) or item.get(\"人员姓名\") or \"未提供姓名\").strip()\n            details = []\n\
+          \            for field in [\"一级部门\", \"二级部门\", \"部门\", \"所属部门\", \"岗位\"\
+          , \"职位\", \"人员类型\", \"公司主体\"]:\n                value = item.get(field)\n\
+          \                if value not in (None, \"\"):\n                    details.append(str(value).strip())\n\
+          \            suffix = f\"（{'｜'.join(details)}）\" if details else \"\"\n\
+          \            lines.append(f\"{index}. {name}{suffix}\")\n        return\
+          \ {\"text\": \"\\n\".join(lines)}\n\n    if status == \"unsupported\":\n\
+          \      return {\n        \"text\": f\"无法查询。\\n原因：{message}\"\n     }\n\n\
+          \    if status == \"not_found\":\n        return {\"text\": f\"未查询到符合条件的人员。\\\
+          n原因：{message}\"}\n\n    return {\"text\": f\"查询失败。\\n原因：{message}\"}\n"
+        code_language: python3
+        desc: 以自然语言汇总查询状态、总人数和完整名单，不重复展示状态列。
+        outputs:
+          text:
+            children: null
+            type: string
+        selected: false
+        title: 人员查询结果汇总展示
+        type: code
+        variables:
+        - value_selector:
+          - '1783912721113'
+          - status
+          value_type: string
+          variable: status
+        - value_selector:
+          - '1783912721113'
+          - message
+          value_type: string
+          variable: message
+        - value_selector:
+          - '1783912721113'
+          - count
+          value_type: number
+          variable: count
+        - value_selector:
+          - '1783912721113'
+          - record
+          value_type: string
+          variable: record
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+      height: 96
+      id: '1778747174285'
+      position:
+        x: 423.72882719357744
+        y: -568.0786457822537
+      positionAbsolute:
+        x: 423.72882719357744
+        y: -568.0786457822537
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "import json\nimport re\nimport unicodedata\nfrom datetime import datetime\n\
+          \n\ndef main(\n    employees=None,\n    headers=None,\n    structured_output=None,\n\
+          \    candidate_json=None,\n    query=None\n):\n    \"\"\"\n    动态人员信息查询。\n\
+          \n    数据优先级：\n    1. Excel真实数据；\n    2. 候选条件识别代码节点；\n    3. 字段识别LLM。\n\n\
+          \    主要能力：\n    1. 动态识别Excel表头；\n    2. 精确查询；\n    3. 模糊包含查询；\n    4. 数字和日期比较；\n\
+          \    5. 人员详情查询；\n    6. 敏感字段过滤。\n    \"\"\"\n\n    # ==============================\n\
+          \    # 0. 统一返回格式\n    # ==============================\n    def response(\n\
+          \        message,\n        status,\n        count=0,\n        record=None\n\
+          \    ):\n        return {\n            \"message\": str(message),\n    \
+          \        \"status\": str(status),\n            \"count\": int(count),\n\
+          \            \"record\": \"\"\n        }\n\n    # 公司工作室将大列表以 JSON 字符串传入；本地列表输入也兼容。\n\
+          \    try:\n      if isinstance(employees, str):\n        employees = json.loads(employees)\
+          \ if employees.strip() else []\n      else:  \n        employees = employees\
+          \ or []\n    except Exception:\n      return response(\n        \"人员数据解析失败：employees\
+          \ 不是有效的 JSON 数据。\",\n        \"error\"\n    )\n\n    try:\n     if isinstance(headers,\
+          \ str):\n        headers = json.loads(headers) if headers.strip() else []\n\
+          \     else:\n        headers = headers or []\n    except Exception:\n  \
+          \   return response(\n        \"Excel表头解析失败：headers 不是有效的 JSON 数据。\",\n\
+          \        \"error\"\n    )\n\n     structured_output = structured_output\
+          \ or {}\n     query = str(query or \"\").strip()\n\n    # ==============================\n\
+          \    # 2. 检查人员数据\n    # ==============================\n    if not isinstance(employees,\
+          \ list):\n        return response(\n            \"人员数据格式错误，employees必须是数组。\"\
+          ,\n            \"error\"\n        )\n\n    if not employees:\n        return\
+          \ response(\n            \"没有可查询的人员数据。\",\n            \"error\"\n     \
+          \   )\n\n    valid_employees = []\n\n    for employee in employees:\n  \
+          \      if isinstance(employee, dict):\n            valid_employees.append(employee)\n\
+          \n    employees = valid_employees\n\n    if not employees:\n        return\
+          \ response(\n            \"人员数据中没有有效记录。\",\n            \"error\"\n    \
+          \    )\n\n    # ==============================\n    # 3. 检查并清理Excel表头\n\
+          \    # ==============================\n    if not isinstance(headers, list):\n\
+          \        return response(\n            \"Excel表头格式错误，headers必须是数组。\",\n\
+          \            \"error\"\n        )\n\n    clean_headers = []\n\n    for header\
+          \ in headers:\n        clean_header = str(header).strip()\n\n        if\
+          \ (\n            clean_header\n            and clean_header not in clean_headers\n\
+          \        ):\n            clean_headers.append(clean_header)\n\n    headers\
+          \ = clean_headers\n\n    if not headers:\n        return response(\n   \
+          \         \"没有识别到Excel表头。\",\n            \"error\"\n        )\n\n    #\
+          \ ==============================\n    # 4. 兼容structured_output为JSON字符串\n\
+          \    # ==============================\n    if isinstance(structured_output,\
+          \ str):\n        structured_text = structured_output.strip()\n\n       \
+          \ structured_text = (\n            structured_text\n            .replace(\"\
+          ```json\", \"\")\n            .replace(\"```JSON\", \"\")\n            .replace(\"\
+          ```\", \"\")\n            .strip()\n        )\n\n        if not structured_text:\n\
+          \            structured_output = {}\n        else:\n            try:\n \
+          \               structured_output = json.loads(\n                    structured_text\n\
+          \                )\n            except Exception:\n                return\
+          \ response(\n                    \"字段识别结果不是有效的JSON格式。\",\n             \
+          \       \"error\"\n                )\n\n    if not isinstance(structured_output,\
+          \ dict):\n        return response(\n            \"字段识别结果格式错误。\",\n     \
+          \       \"error\"\n        )\n\n    # ==============================\n \
+          \   # 5. 解析candidate_json\n    # ==============================\n    authoritative_candidates\
+          \ = []\n\n    if candidate_json:\n        if isinstance(candidate_json,\
+          \ str):\n            candidate_text = candidate_json.strip()\n\n       \
+          \     if candidate_text:\n                try:\n                    authoritative_candidates\
+          \ = json.loads(\n                        candidate_text\n              \
+          \      )\n                except Exception:\n                    return\
+          \ response(\n                        \"候选条件不是有效的JSON格式。\",\n           \
+          \             \"error\"\n                    )\n\n        elif isinstance(candidate_json,\
+          \ list):\n            authoritative_candidates = candidate_json\n\n    \
+          \    else:\n            return response(\n                \"候选条件格式错误。\"\
+          ,\n                \"error\"\n            )\n\n    if not isinstance(\n\
+          \        authoritative_candidates,\n        list\n    ):\n        return\
+          \ response(\n            \"候选条件必须是数组。\",\n            \"error\"\n      \
+          \  )\n\n    # ==============================\n    # 6. 检查候选条件是否存在歧义\n  \
+          \  # ==============================\n    ambiguous_candidates = []\n\n \
+          \   for candidate in authoritative_candidates:\n        if not isinstance(candidate,\
+          \ dict):\n            continue\n\n        if (\n            candidate.get(\"\
+          match_type\")\n            == \"ambiguous_value_match\"\n        ):\n  \
+          \          ambiguous_candidates.append(candidate)\n\n    if ambiguous_candidates:\n\
+          \        descriptions = []\n\n        for candidate in ambiguous_candidates:\n\
+          \            value = str(\n                candidate.get(\"value\", \"\"\
+          )\n            ).strip()\n\n            possible_fields = candidate.get(\n\
+          \                \"possible_fields\",\n                []\n            )\n\
+          \n            if not isinstance(possible_fields, list):\n              \
+          \  possible_fields = []\n\n            field_text = \"、\".join(\n      \
+          \          str(field)\n                for field in possible_fields\n  \
+          \          )\n\n            descriptions.append(\n                f\"“{value}”可能属于字段：{field_text}\"\
+          \n            )\n\n        return response(\n            \"无法唯一确定查询字段。\"\
+          \n            + \"；\".join(descriptions)\n            + \"。请在问题中明确说明字段名称。\"\
+          ,\n            \"error\"\n        )\n\n    # ==============================\n\
+          \    # 7. 提取可信候选条件\n    # ==============================\n    confirmed_conditions\
+          \ = []\n\n    allowed_candidate_types = {\n        \"exact_value_match\"\
+          ,\n        \"gender_pattern_match\"\n    }\n\n    for candidate in authoritative_candidates:\n\
+          \        if not isinstance(candidate, dict):\n            continue\n\n \
+          \       match_type = str(\n            candidate.get(\"match_type\", \"\"\
+          )\n        ).strip()\n\n        if match_type not in allowed_candidate_types:\n\
+          \            continue\n\n        field = str(\n            candidate.get(\"\
+          field\", \"\")\n        ).strip()\n\n        operator = str(\n         \
+          \   candidate.get(\n                \"operator\",\n                \"equals\"\
+          \n            )\n        ).strip().lower()\n\n        value = str(\n   \
+          \         candidate.get(\"value\", \"\")\n        ).strip()\n\n        if\
+          \ not field or not value:\n            continue\n\n        confirmed_condition\
+          \ = {\n            \"field\": field,\n            \"operator\": operator,\n\
+          \            \"value\": value\n        }\n\n        if confirmed_condition\
+          \ not in confirmed_conditions:\n            confirmed_conditions.append(\n\
+          \                confirmed_condition\n            )\n\n    # ==============================\n\
+          \    # 8. 获取LLM查询计划\n    # ==============================\n    intent =\
+          \ str(\n        structured_output.get(\"intent\", \"\")\n    ).strip().lower()\n\
+          \n    allowed_intents = {\n        \"detail\",\n        \"list\",\n    \
+          \    \"count\"\n    }\n\n    if intent == \"unsupported\":\n        if confirmed_conditions:\n\
+          \            intent = \"list\"\n        else:\n            return response(\n\
+          \                \"问题中涉及的字段不存在、不允许查询，或无法确定查询条件。\",\n                \"error\"\
+          \n            )\n\n    if intent not in allowed_intents:\n        return\
+          \ response(\n            \"未识别到有效查询意图。\",\n            \"error\"\n     \
+          \   )\n\n    llm_conditions = structured_output.get(\n        \"conditions\"\
+          ,\n        []\n    )\n\n    # 复合OR：组内AND，组间OR；普通conditions保持全AND语义。\n  \
+          \  raw_condition_groups = structured_output.get(\n        \"condition_groups\"\
+          ,\n        []\n    )\n\n    if raw_condition_groups is None:\n        raw_condition_groups\
+          \ = []\n\n    if not isinstance(raw_condition_groups, list):\n        return\
+          \ response(\n            \"复合OR条件格式错误，condition_groups必须是数组。\",\n      \
+          \      \"error\"\n        )\n\n    if raw_condition_groups and llm_conditions:\n\
+          \        return response(\n            \"使用condition_groups时，conditions必须为空数组。\"\
+          ,\n            \"error\"\n        )\n\n    has_or_groups = bool(raw_condition_groups)\n\
+          \n    if has_or_groups:\n        llm_conditions = []\n\n        for group_index,\
+          \ group in enumerate(\n            raw_condition_groups,\n            start=1\n\
+          \        ):\n            if not isinstance(group, dict):\n             \
+          \   return response(\n                    f\"第{group_index}个OR条件组格式错误。\"\
+          ,\n                    \"error\"\n                )\n\n            group_conditions\
+          \ = group.get(\"conditions\", [])\n\n            if (\n                not\
+          \ isinstance(group_conditions, list)\n                or not group_conditions\n\
+          \            ):\n                return response(\n                    f\"\
+          第{group_index}个OR条件组必须包含conditions数组。\",\n                    \"error\"\n\
+          \                )\n\n            for group_condition in group_conditions:\n\
+          \                if not isinstance(group_condition, dict):\n           \
+          \         return response(\n                        f\"第{group_index}个OR条件组存在无效条件。\"\
+          ,\n                        \"error\"\n                    )\n\n        \
+          \        group_condition = dict(group_condition)\n                group_condition[\"\
+          _or_group\"] = group_index\n                llm_conditions.append(group_condition)\n\
+          \n    requested_fields = structured_output.get(\n        \"requested_fields\"\
+          ,\n        []\n    )\n\n    if llm_conditions is None:\n        llm_conditions\
+          \ = []\n\n    if requested_fields is None:\n        requested_fields = []\n\
+          \n    if not isinstance(llm_conditions, list):\n        return response(\n\
+          \            \"查询条件格式错误，conditions必须是数组。\",\n            \"error\"\n   \
+          \     )\n\n    if not isinstance(requested_fields, list):\n        requested_fields\
+          \ = []\n\n    # ==============================\n    # 9. 候选条件覆盖LLM冲突条件\n\
+          \    # ==============================\n    # OR分支不能把候选条件盲目追加到任一分支，否则会改变“或”的语义。\n\
+          \    merged_conditions = (\n        []\n        if has_or_groups\n     \
+          \   else list(confirmed_conditions)\n    )\n\n    discarded_llm_fields =\
+          \ set()\n\n    for llm_condition in llm_conditions:\n        if not isinstance(llm_condition,\
+          \ dict):\n            continue\n\n        llm_field = str(\n           \
+          \ llm_condition.get(\"field\", \"\")\n        ).strip()\n\n        llm_operator\
+          \ = str(\n            llm_condition.get(\n                \"operator\",\n\
+          \                \"equals\"\n            )\n        ).strip().lower()\n\n\
+          \        llm_value = str(\n            llm_condition.get(\"value\", \"\"\
+          )\n        ).strip()\n\n        if not llm_field or not llm_value:\n   \
+          \         continue\n\n        llm_normalized = {\n            \"field\"\
+          : llm_field,\n            \"operator\": llm_operator,\n            \"value\"\
+          : llm_value\n        }\n\n        if \"_or_group\" in llm_condition:\n \
+          \           llm_normalized[\"_or_group\"] = llm_condition[\"_or_group\"\
+          ]\n\n        # 与确定性条件完全一致时不重复添加\n        if llm_normalized in merged_conditions:\n\
+          \            continue\n\n        conflicts_with_candidate = False\n\n  \
+          \      for confirmed in confirmed_conditions:\n            confirmed_field\
+          \ = confirmed[\"field\"]\n            confirmed_value = confirmed[\"value\"\
+          ]\n\n            value_overlaps = (\n                llm_value in confirmed_value\n\
+          \                or confirmed_value in llm_value\n            )\n\n    \
+          \        # 相似值被LLM放到了其他字段\n            if (\n                value_overlaps\n\
+          \                and llm_field != confirmed_field\n            ):\n    \
+          \            conflicts_with_candidate = True\n                discarded_llm_fields.add(\n\
+          \                    llm_field\n                )\n                break\n\
+          \n            # 同一字段，但LLM修改了真实完整值\n            if (\n                llm_field\
+          \ == confirmed_field\n                and value_overlaps\n             \
+          \   and llm_value != confirmed_value\n            ):\n                conflicts_with_candidate\
+          \ = True\n                discarded_llm_fields.add(\n                  \
+          \  llm_field\n                )\n                break\n\n        if conflicts_with_candidate:\n\
+          \            continue\n\n        if llm_normalized not in merged_conditions:\n\
+          \            merged_conditions.append(\n                llm_normalized\n\
+          \            )\n\n    conditions = merged_conditions\n\n    if not conditions:\n\
+          \        return response(\n            \"未识别到有效查询条件。\",\n            \"\
+          error\"\n        )\n\n    # ==============================\n    # 10. 敏感字段限制\n\
+          \    # ==============================\n    sensitive_keywords = [\n    \
+          \    \"身份证\",\n        \"证件号码\",\n        \"证件号\",\n        \"护照\",\n  \
+          \      \"手机号\",\n        \"手机号码\",\n        \"联系电话\",\n        \"电话号码\"\
+          ,\n        \"家庭地址\",\n        \"家庭住址\",\n        \"详细地址\",\n        \"住址\"\
+          ,\n        \"银行卡\",\n        \"银行账号\",\n        \"银行账户\",\n        \"工资\"\
+          ,\n        \"月薪\",\n        \"年薪\",\n        \"薪资\",\n        \"薪酬\",\n\
+          \        \"奖金\"\n    ]\n\n    def is_sensitive(field):\n        field_text\
+          \ = str(\n            field or \"\"\n        ).strip()\n\n        return\
+          \ any(\n            keyword in field_text\n            for keyword in sensitive_keywords\n\
+          \        )\n         # 用户问题中直接要求敏感信息时，停止查询，不再降级为普通人员查询\n    matched_sensitive_fields\
+          \ = [\n        keyword\n        for keyword in sensitive_keywords\n    \
+          \    if keyword in query\n    ]\n\n    if matched_sensitive_fields:\n  \
+          \      return response(\n            \"“{}”属于敏感信息，系统不支持查询或返回该字段。\".format(\n\
+          \                \"、\".join(matched_sensitive_fields)\n            ),\n\
+          \            \"unsupported\"\n        )\n    # ==============================\n\
+          \    # 11. 允许的查询操作\n    # ==============================\n    allowed_operators\
+          \ = {\n        \"equals\",\n        \"contains\",\n        \"gte\",\n  \
+          \      \"lte\",\n        \"gt\",\n        \"lt\"\n    }\n\n    # ==============================\n\
+          \    # 12. 文本标准化\n    # ==============================\n    def normalize_text(value):\n\
+          \        text = unicodedata.normalize(\n            \"NFKC\",\n        \
+          \    str(value if value is not None else \"\")\n        )\n        return\
+          \ text.replace(\"\\ufeff\", \"\").replace(\"\\u200b\", \"\").strip()\n\n\
+          \    def normalize_match_text(value):\n        \"\"\"\n        用于模糊匹配：\n\
+          \n        1. 统一全角和半角；\n        2. 忽略英文大小写；\n        3. 忽略空格、换行和制表符。\n\n\
+          \        不进行同义词替换、拼音匹配、\n        错别字纠正或语义推断。\n        \"\"\"\n        text\
+          \ = unicodedata.normalize(\n            \"NFKC\",\n            str(\n  \
+          \              value\n                if value is not None\n           \
+          \     else \"\"\n            )\n        ).casefold()\n\n        return re.sub(\n\
+          \            r\"\\s+\",\n            \"\",\n            text\n        )\n\
+          \n    # ==============================\n    # 13. 获取字段中的真实值\n    # ==============================\n\
+          \    def get_field_values(field):\n        values = []\n\n        for employee\
+          \ in employees:\n            actual_value = normalize_text(\n          \
+          \      employee.get(field, \"\")\n            )\n\n            if actual_value:\n\
+          \                values.append(actual_value)\n\n        return values\n\n\
+          \    # ==============================\n    # 14. 校验查询字段和值\n    # ==============================\n\
+          \    safe_conditions = []\n\n    for condition_index, condition in enumerate(\n\
+          \        conditions,\n        start=1\n    ):\n        if not isinstance(condition,\
+          \ dict):\n            return response(\n                f\"第{condition_index}个查询条件格式错误。\"\
+          ,\n                \"error\"\n            )\n\n        field = str(\n  \
+          \          condition.get(\"field\", \"\")\n        ).strip()\n\n       \
+          \ operator = str(\n            condition.get(\n                \"operator\"\
+          ,\n                \"equals\"\n            )\n        ).strip().lower()\n\
+          \n        value = str(\n            condition.get(\"value\", \"\")\n   \
+          \     ).strip()\n\n        if not field:\n            return response(\n\
+          \                f\"第{condition_index}个查询条件缺少字段名称。\",\n                \"\
+          error\"\n            )\n\n        if field not in headers:\n           \
+          \ return response(\n                f\"Excel中不存在字段“{field}”。\"\n       \
+          \         f\"当前可用字段为：{'、'.join(headers)}。\",\n                \"error\"\n\
+          \            )\n\n        if is_sensitive(field):\n            return response(\n\
+          \                f\"字段“{field}”属于敏感信息，不能查询。\",\n                \"error\"\
+          \n            )\n\n        if operator not in allowed_operators:\n     \
+          \       return response(\n                f\"不支持查询操作“{operator}”。\",\n \
+          \               \"error\"\n            )\n\n        if not value:\n    \
+          \        return response(\n                f\"字段“{field}”缺少查询值。\",\n   \
+          \             \"error\"\n            )\n\n        field_values = get_field_values(field)\n\
+          \n        if not field_values:\n            return response(\n         \
+          \       f\"Excel字段“{field}”中没有可查询的数据。\",\n                \"error\"\n  \
+          \          )\n\n        # --------------------------\n        # equals精确值存在性校验\n\
+          \        # --------------------------\n        if operator == \"equals\"\
+          :\n            # Use the same Unicode/whitespace normalization as the final\
+          \ filter.\n            value_key = normalize_match_text(value)\n       \
+          \     existing_values = set(field_values)\n            existing_value_keys\
+          \ = {\n                normalize_match_text(actual_value): actual_value\n\
+          \                for actual_value in existing_values\n            }\n\n\
+          \            if value_key not in existing_value_keys:\n                similar_values\
+          \ = [\n                    actual_value\n                    for actual_value\
+          \ in existing_values\n                    if (\n                       \
+          \ value_key in normalize_match_text(actual_value)\n                    \
+          \    or normalize_match_text(actual_value) in value_key\n              \
+          \      )\n                ]\n\n                similar_values = sorted(\n\
+          \                    similar_values\n                )[:5]\n\n         \
+          \       if similar_values:\n                    return response(\n     \
+          \                   f\"Excel字段“{field}”中不存在完整值\"\n                     \
+          \   f\"“{value}”。\"\n                        f\"可能相关的真实值为：\"\n         \
+          \               f\"{'、'.join(similar_values)}。\",\n                    \
+          \    \"error\"\n                    )\n\n                return response(\n\
+          \                    f\"Excel字段“{field}”中不存在值\"\n                    f\"\
+          “{value}”。\"\n                    \"字段识别结果可能有误。\",\n                   \
+          \ \"error\"\n                )\n\n        # --------------------------\n\
+          \        # contains模糊值存在性校验\n        # --------------------------\n    \
+          \    if operator == \"contains\":\n            normalized_target = normalize_match_text(\n\
+          \                value\n            )\n\n            if not normalized_target:\n\
+          \                return response(\n                    f\"字段“{field}”缺少有效的模糊查询关键词。\"\
+          ,\n                    \"error\"\n                )\n\n            contains_match\
+          \ = any(\n                normalized_target\n                in normalize_match_text(actual_value)\n\
+          \                for actual_value in field_values\n            )\n\n   \
+          \         if not contains_match:\n                return response(\n   \
+          \                 f\"Excel字段“{field}”中没有包含\"\n                    f\"“{value}”的数据。\"\
+          ,\n                    \"not_found\"\n                )\n\n        normalized_condition\
+          \ = {\n            \"field\": field,\n            \"operator\": operator,\n\
+          \            \"value\": value\n        }\n\n        if \"_or_group\" in\
+          \ condition:\n            normalized_condition[\"_or_group\"] = condition[\"\
+          _or_group\"]\n\n        if normalized_condition not in safe_conditions:\n\
+          \            safe_conditions.append(\n                normalized_condition\n\
+          \            )\n\n    if not safe_conditions:\n        return response(\n\
+          \            \"未识别到有效查询条件。\",\n            \"error\"\n        )\n\n    #\
+          \ ==============================\n    # 15. 数字和日期提取\n    # ==============================\n\
+          \    def extract_number(value):\n        \"\"\"\n        支持：\n        25\n\
+          \        25岁\n        4.8年\n        \"\"\"\n        text = normalize_text(value)\n\
+          \n        match = re.search(\n            r\"-?\\d+(?:\\.\\d+)?\",\n   \
+          \         text\n        )\n\n        if not match:\n            return None\n\
+          \n        try:\n            return float(match.group())\n        except\
+          \ Exception:\n            return None\n\n    def extract_date(value):\n\
+          \        \"\"\"\n        解析常见日期格式。\n        \"\"\"\n        text = normalize_text(value)\n\
+          \n        date_formats = [\n            \"%Y-%m-%d\",\n            \"%Y/%m/%d\"\
+          ,\n            \"%Y.%m.%d\",\n            \"%Y年%m月%d日\",\n            \"\
+          %Y-%m\",\n            \"%Y/%m\",\n            \"%Y年%m月\"\n        ]\n\n\
+          \        for date_format in date_formats:\n            try:\n          \
+          \      return datetime.strptime(\n                    text,\n          \
+          \          date_format\n                )\n            except Exception:\n\
+          \                continue\n\n        return None\n\n    # ==============================\n\
+          \    # 16. 比较函数\n    # ==============================\n    def compare(\n\
+          \        actual,\n        operator,\n        target\n    ):\n        actual_text\
+          \ = normalize_text(actual)\n        target_text = normalize_text(target)\n\
+          \n        # Exact queries ignore Unicode form and invisible whitespace differences.\n\
+          \        if operator == \"equals\":\n            return normalize_match_text(actual_text)\
+          \ == normalize_match_text(target_text)\n\n        # 模糊查询使用标准化包含匹配\n    \
+          \    if operator == \"contains\":\n            normalized_actual = normalize_match_text(\n\
+          \                actual_text\n            )\n            normalized_target\
+          \ = normalize_match_text(\n                target_text\n            )\n\n\
+          \            return (\n                bool(normalized_target)\n       \
+          \         and normalized_target in normalized_actual\n            )\n\n\
+          \        # 日期比较\n        actual_date = extract_date(actual_text)\n     \
+          \   target_date = extract_date(target_text)\n\n        if (\n          \
+          \  actual_date is not None\n            and target_date is not None\n  \
+          \      ):\n            if operator == \"gte\":\n                return actual_date\
+          \ >= target_date\n\n            if operator == \"lte\":\n              \
+          \  return actual_date <= target_date\n\n            if operator == \"gt\"\
+          :\n                return actual_date > target_date\n\n            if operator\
+          \ == \"lt\":\n                return actual_date < target_date\n\n     \
+          \   # 数字比较\n        actual_number = extract_number(actual_text)\n      \
+          \  target_number = extract_number(target_text)\n\n        if (\n       \
+          \     actual_number is not None\n            and target_number is not None\n\
+          \        ):\n            if operator == \"gte\":\n                return\
+          \ actual_number >= target_number\n\n            if operator == \"lte\":\n\
+          \                return actual_number <= target_number\n\n            if\
+          \ operator == \"gt\":\n                return actual_number > target_number\n\
+          \n            if operator == \"lt\":\n                return actual_number\
+          \ < target_number\n\n        # 比较值必须同为可解析日期或数值，禁止退化为字符串比较。\n        # 这样可避免“9”被错误判定为大于“10”。\n\
+          \        return False\n\n    # ==============================\n    # 17.\
+          \ 执行人员筛选\n    # ==============================\n    matched_people = []\n\
+          \n    grouped_conditions = {}\n\n    for condition in safe_conditions:\n\
+          \        group_id = condition.get(\"_or_group\", 0)\n        grouped_conditions.setdefault(\n\
+          \            group_id,\n            []\n        ).append(condition)\n\n\
+          \    for employee in employees:\n        # 同一组的条件全部满足；任一组满足即命中。\n      \
+          \  matched = any(\n            all(\n                compare(\n        \
+          \            employee.get(condition[\"field\"], \"\"),\n               \
+          \     condition[\"operator\"],\n                    condition[\"value\"\
+          ]\n                )\n                for condition in group_conditions\n\
+          \            )\n            for group_conditions in grouped_conditions.values()\n\
+          \        )\n\n        if matched:\n            matched_people.append(employee)\n\
+          \n    # ==============================\n    # 18. 没有查询结果\n    # ==============================\n\
+          \    if not matched_people:\n        operator_text_map = {\n           \
+          \ \"equals\": \"等于\",\n            \"contains\": \"包含\",\n            \"\
+          gte\": \"大于等于\",\n            \"lte\": \"小于等于\",\n            \"gt\": \"\
+          大于\",\n            \"lt\": \"小于\"\n        }\n\n        condition_text =\
+          \ \"、\".join(\n            f'{condition[\"field\"]}'\n            f'{operator_text_map.get(condition[\"\
+          operator\"], condition[\"operator\"])}'\n            f'“{condition[\"value\"\
+          ]}”'\n            for condition in safe_conditions\n        )\n\n      \
+          \  return response(\n            f\"未查询到符合以下条件的人员：\"\n            f\"{condition_text}。\"\
+          ,\n            \"not_found\"\n        )\n\n    total_count = len(matched_people)\n\
+          \n    #==============================\n    # 19. 人数统计\n    # ==============================\n\
+          \    if intent == \"count\":\n        msg = f\"共查询到{total_count}名符合条件的人员。\"\
+          \n        return {\n            \"status\": \"success\",\n            \"\
+          message\": msg,\n            \"count\": total_count,\n            \"record\"\
+          : json.dumps(matched_people, ensure_ascii=False)\n        }\n\n\n    # ==============================\n\
+          \    # 20. 清理并确定返回字段\n    # ==============================\n    safe_requested_fields\
+          \ = []\n\n    # ------------------------------\n    # 20.1 综合详情查询\n    #\
+          \ ------------------------------\n    # 用户询问“人员信息、详细信息、详情”等，\n    # 自动返回全部真实且非敏感的Excel字段。\n\
+          \    detail_all_field_keywords = [\n        \"人员信息\",\n        \"个人信息\"\
+          ,\n        \"详细信息\",\n        \"完整信息\",\n        \"基本信息\",\n        \"人员详情\"\
+          ,\n        \"个人详情\",\n        \"完整资料\",\n        \"详细资料\",\n        \"个人资料\"\
+          ,\n        \"全部信息\",\n        \"所有信息\"\n    ]\n\n    wants_all_detail_fields\
+          \ = (\n        intent == \"detail\"\n        and any(\n            keyword\
+          \ in query\n            for keyword in detail_all_field_keywords\n     \
+          \   )\n    )\n\n    if wants_all_detail_fields:\n        for header in headers:\n\
+          \            field = str(header).strip()\n\n            if not field:\n\
+          \                continue\n\n            if is_sensitive(field):\n     \
+          \           continue\n\n            if field not in safe_requested_fields:\n\
+          \                safe_requested_fields.append(field)\n\n    # ------------------------------\n\
+          \    # 20.2 接收LLM识别的返回字段\n    # ------------------------------\n    for\
+          \ requested_field in requested_fields:\n        field = str(\n         \
+          \   requested_field\n        ).strip()\n\n        if not field:\n      \
+          \      continue\n\n        if field in discarded_llm_fields:\n         \
+          \   continue\n\n        if field not in headers:\n            continue\n\
+          \n        if is_sensitive(field):\n            continue\n\n        if field\
+          \ not in safe_requested_fields:\n            safe_requested_fields.append(field)\n\
+          \n    # ------------------------------\n    # 20.3 从用户问题中识别真实表头\n    # ------------------------------\n\
+          \    for header in headers:\n        field = str(header).strip()\n\n   \
+          \     if not field:\n            continue\n\n        if is_sensitive(field):\n\
+          \            continue\n\n        if field in query:\n            if field\
+          \ not in safe_requested_fields:\n                safe_requested_fields.append(field)\n\
+          \n    # ------------------------------\n    # 20.4 常见表达和Excel字段映射\n    #\
+          \ ------------------------------\n    field_alias_groups = {\n        \"\
+          年龄\": [\n            \"年龄\",\n            \"员工年龄\",\n            \"人员年龄\"\
+          \n        ],\n        \"部门\": [\n            \"部门\",\n            \"所属部门\"\
+          ,\n            \"所在部门\"\n        ],\n        \"岗位\": [\n            \"岗位\"\
+          ,\n            \"职位\",\n            \"职务\",\n            \"岗位名称\"\n    \
+          \    ],\n        \"学历\": [\n            \"学历\",\n            \"最高学历\"\n\
+          \        ],\n        \"政治面貌\": [\n            \"政治面貌\"\n        ],\n   \
+          \     \"司龄\": [\n            \"司龄\",\n            \"司龄(年)\",\n         \
+          \   \"工作年限\"\n        ],\n        \"入职日期\": [\n            \"入职日期\",\n \
+          \           \"入职时间\"\n        ]\n    }\n\n    query_aliases = {\n      \
+          \  \"年龄\": [\n            \"年龄\",\n            \"多大\",\n            \"几岁\"\
+          ,\n            \"多少岁\"\n        ],\n        \"部门\": [\n            \"部门\"\
+          ,\n            \"哪个部门\",\n            \"哪里工作\"\n        ],\n        \"岗位\"\
+          : [\n            \"岗位\",\n            \"职位\",\n            \"职务\",\n   \
+          \         \"做什么工作\"\n        ],\n        \"学历\": [\n            \"学历\",\n\
+          \            \"什么学历\",\n            \"最高学历\"\n        ],\n        \"政治面貌\"\
+          : [\n            \"政治面貌\",\n            \"党员情况\"\n        ],\n        \"\
+          司龄\": [\n            \"司龄\",\n            \"工作几年\",\n            \"工作多少年\"\
+          \n        ],\n        \"入职日期\": [\n            \"入职日期\",\n            \"\
+          入职时间\",\n            \"什么时候入职\",\n            \"哪年入职\"\n        ]\n    }\n\
+          \n    for standard_field, aliases in query_aliases.items():\n        query_mentions_field\
+          \ = any(\n            alias in query\n            for alias in aliases\n\
+          \        )\n\n        if not query_mentions_field:\n            continue\n\
+          \n        possible_headers = field_alias_groups.get(\n            standard_field,\n\
+          \            []\n        )\n\n        matched_header = None\n\n        for\
+          \ possible_header in possible_headers:\n            if possible_header in\
+          \ headers:\n                matched_header = possible_header\n         \
+          \       break\n\n        if (\n            matched_header\n            and\
+          \ not is_sensitive(matched_header)\n            and matched_header not in\
+          \ safe_requested_fields\n        ):\n            safe_requested_fields.append(\n\
+          \                matched_header\n            )\n\n    # ==============================\n\
+          \    # 21. 候选条件字段加入展示字段\n    # ==============================\n    for condition\
+          \ in safe_conditions:\n        candidate_field = condition[\"field\"]\n\n\
+          \        if (\n            candidate_field in headers\n            and not\
+          \ is_sensitive(candidate_field)\n            and candidate_field\n     \
+          \       not in safe_requested_fields\n        ):\n            safe_requested_fields.append(\n\
+          \                candidate_field\n            )\n    for org_field in [\"\
+          一级部门\", \"二级部门\"]:\n      if (\n          org_field in headers\n       \
+          \   and not is_sensitive(org_field)\n          and org_field not in safe_requested_fields\n\
+          \      ):\n          safe_requested_fields.append(org_field)        \n\n\
+          \n\n    # ==============================\n    # 22. 自动寻找姓名字段\n    # ==============================\n\
+          \    possible_name_fields = [\n        \"姓名\",\n        \"员工姓名\",\n    \
+          \    \"人员姓名\",\n        \"名字\",\n        \"员工名称\",\n        \"人员名称\"\n \
+          \   ]\n\n    name_field = None\n\n    for possible_field in possible_name_fields:\n\
+          \        if possible_field in headers:\n            name_field = possible_field\n\
+          \            break\n\n    # 名单和详情默认包含姓名\n    if (\n        name_field\n\
+          \        and name_field not in safe_requested_fields\n    ):\n        safe_requested_fields.insert(\n\
+          \            0,\n            name_field\n        )\n\n    # ==============================\n\
+          \    # 23. 默认展示字段\n    # ==============================\n    if not safe_requested_fields:\n\
+          \        default_fields = [\n            \"姓名\",\n            \"员工姓名\",\n\
+          \            \"人员姓名\",\n            \"部门\",\n            \"所属部门\",\n   \
+          \         \"岗位\",\n            \"职位\",\n            \"职务\"\n        ]\n\n\
+          \        for default_field in default_fields:\n            if (\n      \
+          \          default_field in headers\n                and not is_sensitive(default_field)\n\
+          \                and default_field\n                not in safe_requested_fields\n\
+          \            ):\n                safe_requested_fields.append(\n       \
+          \             default_field\n                )\n\n    if not safe_requested_fields:\n\
+          \        return response(\n            \"未识别到允许展示的字段。\",\n            \"\
+          error\"\n        )\n\n    # ==============================\n    # 24. 构造安全输出记录\n\
+          \    # ==============================\n    output_records = []\n\n    for\
+          \ employee in matched_people:\n        output_record = {}\n\n        for\
+          \ field in safe_requested_fields:\n            output_record[field] = normalize_text(\n\
+          \                employee.get(field, \"\")\n            )\n\n        output_records.append(output_record)\n\
+          \n    #==============================\n    # 25. 构造查询说明\n    # ==============================\n\
+          \    message = (\n        f\"共查询到{total_count}名符合条件的人员。\"\n    )\n\n   \
+          \ return {\n        \"status\": \"success\",\n        \"message\": message,\n\
+          \        \"count\": total_count,\n        \"record\": json.dumps(output_records,\
+          \ ensure_ascii=False)\n    }\n"
+        code_language: python3
+        desc: 1.解析文本 2.根据参数筛查人员 3.结构化输出
+        outputs:
+          count:
+            children: null
+            type: number
+          message:
+            children: null
+            type: string
+          record:
+            children: null
+            type: string
+          status:
+            children: null
+            type: string
+        selected: false
+        title: 动态查询
+        type: code
+        variables:
+        - value_selector:
+          - '1784166032256'
+          - employees
+          value_type: string
+          variable: employees
+        - value_selector:
+          - '1784166032256'
+          - headers
+          value_type: array[string]
+          variable: headers
+        - value_selector:
+          - '1784166258491'
+          - structured_output
+          value_type: object
+          variable: structured_output
+        - value_selector:
+          - '1784186520243'
+          - candidate_json
+          value_type: string
+          variable: candidate_json
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+      height: 96
+      id: '1783912721113'
+      position:
+        x: 125.15803678753593
+        y: -568.0786457822537
+      positionAbsolute:
+        x: 125.15803678753593
+        y: -568.0786457822537
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "import re\n\ndef main(excel_text=None, query=None):\n    if not excel_text:\n\
+          \        return {\"status\":\"error\",\"message\":\"请上传人员输入底表。\",\"headers\"\
+          :[],\"detail_keys\":[],\"employees\":[],\"budget_records\":[]}\n\n    #\
+          \ 兼容Excel提取插件可能返回的三种文本格式：\n    # 1. Row 3: A | B | C\n    # 2. | A | B |\
+          \ C |（Markdown表格）\n    # 3. A\\tB\\tC（制表符分隔）\n    rows=[]\n    sequence=0\n\
+          \    for raw_line in str(excel_text).splitlines():\n        line=raw_line.strip()\n\
+          \        if not line:\n            continue\n\n        values=None\n   \
+          \     row_number=None\n        row_match=re.match(r\"^Row\\s*(\\d+)\\s*[:：]\\\
+          s*(.*)$\",line,re.I)\n        if row_match:\n            row_number=int(row_match.group(1))\n\
+          \            values=[x.strip() for x in row_match.group(2).strip().strip(\"\
+          |\").split(\"|\")]\n        elif \"|\" in line:\n            values=[x.strip()\
+          \ for x in line.strip(\"|\").split(\"|\")]\n        elif \"\\t\" in line:\n\
+          \            values=[x.strip() for x in line.split(\"\\t\")]\n\n       \
+          \ if not values:\n            continue\n\n        # 跳过Markdown表头下方的 ---\
+          \ 分隔行。\n        normalized=[re.sub(r\"[:\\-\\s]\",\"\",str(x)) for x in\
+          \ values]\n        if values and all(not item for item in normalized):\n\
+          \            continue\n\n        sequence+=1\n        rows.append((row_number\
+          \ or sequence,values))\n\n    header_index=next((i for i,(_,row) in enumerate(rows)\
+          \ if \"姓名\" in row),-1)\n    if header_index<0:\n        return {\"status\"\
+          :\"error\",\"message\":\"未识别到包含“姓名”的表头。\",\"headers\":[],\"detail_keys\"\
+          :[],\"employees\":[],\"budget_records\":[]}\n\n    headers=rows[header_index][1]\n\
+          \    required=[\"序号\",\"姓名\",\"司龄(年)\",\"公司主体\",\"基本工资(元)\",\"交通补贴\",\"\
+          专业证书补贴\",\"餐补\",\"租房补贴\",\"探亲福利费\",\"专利奖金\",\"体检费\",\"团建费\",\"补充医疗\",\"\
+          补偿金\"]\n    missing=[x for x in required if x not in headers]\n    if missing:\n\
+          \        return {\"status\":\"error\",\"message\":\"输入表缺少字段：\"+\"、\".join(missing),\"\
+          headers\":[],\"detail_keys\":[],\"employees\":[],\"budget_records\":[]}\n\
+          \n    index={}\n    for i,name in enumerate(headers):\n        if name not\
+          \ in index:\n            index[name]=i\n\n    def get(values,name,default=\"\
+          \"):\n        return values[index[name]] if name in index else default\n\
+          \n    def num(value):\n        try:\n            return float(str(value\
+          \ or \"\").replace(\",\",\"\").replace(\"元\",\"\").replace(\"%\",\"\").strip()\
+          \ or 0)\n        except:\n            return 0.0\n\n    def blank(value):\n\
+          \        return str(value or \"\").strip() in {\"\",\"-\",\"\\\\\",\"无\"\
+          ,\"None\"}\n\n    input_headers=[\"序号\",\"姓名\",\"年龄\",\"一级部门\",\"二级部门\"\
+          ,\"岗位\",\"学历\",\"性别\",\"政治面貌\",\"司龄(年)\",\"入职日期\",\"民族\",\"人员类型\",\"公司主体\"\
+          ,\"费用类别\",\"2022年考核等级\",\"2023年考核等级\",\"2024年考核等级\",\"基本工资(元)\",\"交通补贴\"\
+          ,\"专业证书补贴\",\"单位社保公积金(元)\",\"餐补\",\"租房补贴\",\"探亲福利费\",\"专利奖金\",\"体检费\",\"\
+          团建费\",\"补充医疗\",\"补偿金\",\"在岗月数\",\"绩效核算月数\",\"绩效折扣比例\",\"社保公积金年度上涨比例\",\"\
+          工会经费计提比例\"]\n    input_keys=[\"序号\",\"姓名\",\"年龄\",\"一级部门\",\"二级部门\",\"岗位\"\
+          ,\"学历\",\"性别\",\"政治面貌\",\"司龄(年)\",\"入职日期\",\"民族\",\"人员类型\",\"公司主体\",\"费用类别\"\
+          ,\"2022年考核等级\",\"2023年考核等级\",\"2024年考核等级\",\"基本工资(元)\",\"交通补贴\",\"专业证书补贴\"\
+          ,\"单位社保公积金(元)\",\"餐补（输入）\",\"租房补贴\",\"探亲福利费（输入）\",\"专利奖金（输入）\",\"体检费（输入）\"\
+          ,\"团建费（输入）\",\"补充医疗（输入）\",\"补偿金（输入）\",\"在岗月数\",\"绩效核算月数\",\"绩效折扣比例\",\"\
+          社保公积金年度上涨比例\",\"工会经费计提比例\"]\n    calc_headers=[\"年度税前工资（含基本工资、交补、专业证书补贴）\"\
+          ,\"年度单位社保公积金合计\",\"年度绩效（8折）\",\"转移重庆租房福利\",\"非货币性福利\",\"餐补\",\"探亲福利费\",\"\
+          专利奖金\",\"体检费\",\"团建费\",\"补充医疗\",\"工会经费\",\"补偿金\",\"人工成本合计\"]\n    ratio_headers=[\"\
+          投入交通工时占比\",\"投入汽车工时占比\",\"投入预研项目工时占比\",\"投入自动化测试平台工时占比\"]\n\n    allocation_headers=[]\n\
+          \    for business in [\"交通\",\"汽车\",\"研发平台\"]:\n        allocation_headers\
+          \ += [f\"税前工资-{business}\",f\"单位社保公积金-{business}\",f\"年度绩效-{business}\"\
+          ,f\"工会经费-{business}\",f\"专利奖金-{business}\",f\"福利费-{business}\",f\"补偿金-{business}\"\
+          ,f\"合计-{business}\"]\n    allocation_headers += [\"税前工资-测试平台\",\"单位社保公积金-测试平台\"\
+          ,\"年度绩效-测试平台\",\"工会经费-测试平台\",\"专利奖金-测试平台\",\"福利费-测试平台\",\"合计-测试平台\"]\n\n\
+          \    output_headers=input_headers+calc_headers+ratio_headers+allocation_headers\n\
+          \    output_keys=input_keys+calc_headers+ratio_headers+allocation_headers\n\
+          \n    aliases={\"交通\":\"交通\",\"汽车\":\"汽车\",\"研发平台\":\"研发平台\",\"预研项目\":\"\
+          研发平台\",\"测试平台\":\"测试平台\",\"自动化测试平台\":\"测试平台\"}\n    prompt_ratios={}\n \
+          \   for alias,business in aliases.items():\n        hit=re.search(alias+r\"\
+          [^0-9％%]{0,12}([0-9]+(?:\\.[0-9]+)?)\\s*[％%]\",str(query or \"\"))\n   \
+          \     if hit:\n            prompt_ratios[business]=float(hit.group(1))/100\n\
+          \n    records=[]\n    for _,values in rows[header_index+1:]:\n        values=(values+[\"\
+          \"]*len(headers))[:len(headers)]\n        # Excel提取器会连续返回工作簿内的多个Sheet。\n\
+          \        # 人员主表的“序号”必须是正整数；预算汇总表中的部门、总计、人数等行全部跳过，\n        # 防止其被按人员主表列位置解析并产生“某人的在岗月数大于12”等错位错误。\n\
+          \        serial_text=str(get(values,\"序号\") or \"\").strip()\n        if\
+          \ not re.fullmatch(r\"[1-9]\\d*(?:\\.0+)?\",serial_text):\n            continue\n\
+          \        if not any(values) or blank(get(values,\"姓名\")):\n            continue\n\
+          \n        company=str(get(values,\"公司主体\") or \"\")\n        comp=num(get(values,\"\
+          补偿金\"))\n        basic=num(get(values,\"基本工资(元)\"))\n        transport=num(get(values,\"\
+          交通补贴\"))\n        certificate=num(get(values,\"专业证书补贴\"))\n\n        raw_months=get(values,\"\
+          在岗月数\")\n        months=12.0 if blank(raw_months) else num(raw_months)\n\
+          \        perf_wage=num(get(values,\"绩效工资\",get(values,\"绩效工资(元)\",0)))\n\
+          \        perf_months=num(get(values,\"绩效核算月数\"))\n        perf_discount=num(get(values,\"\
+          绩效折扣比例\"))\n        social_growth=num(get(values,\"社保公积金年度上涨比例\")) or 1.0\n\
+          \        union_rate=num(get(values,\"工会经费计提比例\"))\n\n        if not 0<=months<=12:\n\
+          \            return {\"status\":\"error\",\"message\":f\"{get(values,'姓名')}\
+          \ 的在岗月数必须为 0–12。\",\"headers\":output_headers,\"detail_keys\":output_keys,\"\
+          employees\":[],\"budget_records\":[]}\n\n        salary=(basic+transport+certificate)*months\n\
+          \        social=basic*0.48*months*social_growth\n        performance=0.0\
+          \ if \"新增\" in str(get(values,\"人员类型\") or \"\") else basic*perf_months*perf_discount\n\
+          \n        medical=num(get(values,\"补充医疗\"))\n        patent=num(get(values,\"\
+          专利奖金\"))\n        transfer=num(get(values,\"租房补贴\"))*months\n        noncash=0.0\
+          \ if (\"北京\" in company or \"重庆\" in company) else (num(get(values,\"非货币性福利\"\
+          )) or 3000.0)\n        meal=num(get(values,\"餐补\"))*months\n        visit=0.0\
+          \ if (\"北京\" in company or \"重庆\" in company) else num(get(values,\"探亲福利费\"\
+          ))\n        checkup=num(get(values,\"体检费\"))\n        team=num(get(values,\"\
+          团建费\"))\n\n        if not union_rate:\n            union_rate=0.016 if \"\
+          北京\" in company else (0.02 if \"重庆\" in company else 0.0)\n\n        union=(salary+performance+patent)*union_rate\n\
+          \        welfare=transfer+noncash+meal+visit+checkup+team+medical\n    \
+          \    total=salary+social+performance+transfer+noncash+meal+visit+patent+checkup+team+medical+union+comp\n\
+          \n        base={key:get(values,header) for key,header in zip(input_keys,input_headers)}\n\
+          \        base[\"单位社保公积金(元)\"]=basic*0.48\n        base.update({\"年度税前工资（含基本工资、交补、专业证书补贴）\"\
+          :salary,\"年度单位社保公积金合计\":social,\"年度绩效（8折）\":performance,\"转移重庆租房福利\":transfer,\"\
+          非货币性福利\":noncash,\"餐补\":meal,\"探亲福利费\":visit,\"专利奖金\":patent,\"体检费\":checkup,\"\
+          团建费\":team,\"补充医疗\":medical,\"工会经费\":union,\"补偿金\":comp,\"人工成本合计\":total})\n\
+          \n        source_ratio=lambda h:num(get(values,h))\n        ratios={\"交通\"\
+          :prompt_ratios.get(\"交通\",source_ratio(\"投入交通工时占比\")),\"汽车\":prompt_ratios.get(\"\
+          汽车\",source_ratio(\"投入汽车工时占比\")),\"研发平台\":prompt_ratios.get(\"研发平台\",source_ratio(\"\
+          投入预研项目工时占比\")),\"测试平台\":prompt_ratios.get(\"测试平台\",source_ratio(\"投入自动化测试平台工时占比\"\
+          ))}\n\n        base.update({\"投入交通工时占比\":ratios[\"交通\"],\"投入汽车工时占比\":ratios[\"\
+          汽车\"],\"投入预研项目工时占比\":ratios[\"研发平台\"],\"投入自动化测试平台工时占比\":ratios[\"测试平台\"\
+          ]})\n\n        allocation_factor=lambda r:(r*12/months) if months>0 else\
+          \ 0.0\n\n        for business in [\"交通\",\"汽车\",\"研发平台\"]:\n           \
+          \ r=allocation_factor(ratios[business])\n            line_values=[salary*r,social*r,performance*r,union*r,patent*r,welfare*r,comp*r]\n\
+          \            for label,amount in zip([\"税前工资\",\"单位社保公积金\",\"年度绩效\",\"工会经费\"\
+          ,\"专利奖金\",\"福利费\",\"补偿金\"],line_values):\n                base[f\"{label}-{business}\"\
+          ]=amount\n            base[f\"合计-{business}\"]=sum(line_values)\n\n    \
+          \    r=allocation_factor(ratios[\"测试平台\"])\n        test_welfare=transfer+noncash+meal+visit+checkup+team\n\
+          \        line_values=[salary*r,social*r,performance*r,union*r,patent*r,test_welfare*r]\n\
+          \        for label,amount in zip([\"税前工资\",\"单位社保公积金\",\"年度绩效\",\"工会经费\"\
+          ,\"专利奖金\",\"福利费\"],line_values):\n            base[f\"{label}-测试平台\"]=amount\n\
+          \        base[\"合计-测试平台\"]=sum(line_values)\n\n        records.append(base)\n\
+          \n    if not records:\n        return {\"status\":\"error\",\"message\"\
+          :\"未识别到有效人员数据。\",\"headers\":output_headers,\"detail_keys\":output_keys,\"\
+          employees\":[],\"budget_records\":[]}\n\n    return {\n        \"status\"\
+          :\"success\",\n        \"message\":f\"已生成 {len(records)} 条 A:CF 成本详表。\"\
+          ,\n        \"headers\":output_headers,\n        \"detail_keys\":output_keys,\n\
+          \        \"employees\":records,\n        \"budget_records\":records\n  \
+          \  }"
+        code_language: python3
+        desc: 自动补齐Excel提取器省略的行尾空单元格，完整保留人员记录
+        outputs:
+          budget_records:
+            children: null
+            type: array[object]
+          detail_keys:
+            type: array[string]
+          employees:
+            children: null
+            type: array[object]
+          headers:
+            children: null
+            type: array[string]
+          message:
+            children: null
+            type: string
+          status:
+            children: null
+            type: string
+        selected: false
+        title: 按 0903 详表参数计算（AJ:CF）
+        type: code
+        variables:
+        - value_selector:
+          - '1784171411058'
+          - text
+          value_type: string
+          variable: excel_text
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+      height: 96
+      id: '1784166032256'
+      position:
+        x: -1575.7426818628085
+        y: -864.7116606998214
+      positionAbsolute:
+        x: -1575.7426818628085
+        y: -864.7116606998214
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        desc: 读取用户问题
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: qwen3:32b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - id: 8c676ed8-2556-4085-8913-a799cac66b6d
+          role: system
+          text: "你是人员信息查询计划生成器。\n\n用户问题：\n\n{{{#sys.query#}}}}\n\nExcel真实表头：\n\n{{{#1784166032256.headers#}}}\n\
+            \n代码根据Excel真实数据确定的查询条件：\n\n{{{#1784186520243.candidate_text#}}}\n\n你需要根据用户问题、Excel真实表头和代码候选条件，输出结构化查询计划。\n\
+            \n一、基本原则\n\n1. 只能使用用户问题中明确表达的信息。\n2. conditions中的field必须来自Excel真实表头。\n\
+            3. requested_fields中的字段必须来自Excel真实表头。\n4. 禁止根据常识猜测Excel中不存在的字段。\n5. 禁止虚构、扩写、补全或修改用户输入的查询值。\n\
+            6. 禁止把用户输入的部分值擅自改写成模型猜测的完整值。\n7. 如果无法安全、唯一地确定查询字段，intent返回unsupported。\n\
+            8. 只输出结构化结果，不要输出解释、分析过程或Markdown代码块。\n\n二、确定性候选条件\n\n候选条件识别节点返回的条件来自Excel真实数据，优先级最高。\n\
+            \n1. 如果候选条件中存在field、operator和value，必须原样复制。\n2. 禁止修改候选条件中的field。\n3. 禁止修改候选条件中的operator。\n\
+            4. 禁止缩写、改写、扩写或概括候选条件中的value。\n5. 禁止把“科研开发人员”改成“科研开发”。\n6. 禁止把“人员类型”改成“岗位”。\n\
+            7. 如果候选条件已经完整表达某个查询条件，不要重复生成该条件。\n8. 如果候选条件与模型推断的条件冲突，以候选条件为准。\n9. 如果候选条件提示同一个值可能属于多个字段，不得自行选择字段，intent必须返回unsupported。\n\
+            10. 候选条件中的完整真实值默认使用其原有equals操作符，不得因为值中包含其他词语而改成contains。\n\n三、查询意图\n\n\
+            intent只能是以下四种值：\n\ndetail：查询某一个明确人员的具体信息\nlist：查询符合条件的人员名单\ncount：只统计符合条件的人数\n\
+            unsupported：无法安全确定查询条件\n\n判断规则：\n\n1. 用户询问“多少人、几人、人数、数量、总数”时，返回count。\n\
+            2. 用户询问“有哪些人、有谁、名单、分别是谁、列出人员”时，返回list。\n3. 用户查询某个明确人员的具体字段或详情时，返回detail。\n\
+            4. 用户没有提供有效查询条件时，返回unsupported。\n5. 无法从Excel真实表头中唯一确定查询字段时，返回unsupported。\n\
+            6. 查询字段涉及敏感信息时，返回unsupported。\n\n四、查询条件\n\nconditions是查询条件数组。\n\n每个查询条件必须包含：\n\
+            \nfield：Excel真实表头中的字段名称\noperator：查询操作符\nvalue：用户输入的查询值，或者候选条件提供的完整真实值\n\
+            \noperator只能使用：\n\nequals\ncontains\ngte\nlte\ngt\nlt\n\n本阶段主要处理equals和contains。\n\
+            \n五、equals精确查询规则\n\n以下情况使用equals：\n\n1. 候选条件识别节点已经返回完整真实值和equals。\n2.\
+            \ 用户明确使用“等于、是、为、完全等于”等精确表达，并且给出了完整值。\n3. 用户查询某个明确人员的姓名，并且候选条件已经确认该完整姓名。\n\
+            4. 用户提供的内容已经由候选条件确认是Excel中的完整字段值。\n\n示例：\n\n用户：\n人员类型是科研开发人员的有哪些？\n\n\
+            候选条件：\n字段：人员类型\n值：科研开发人员\n匹配方式：exact_value_match\n\n正确条件：\n\n{\n  \"field\"\
+            : \"人员类型\",\n  \"operator\": \"equals\",\n  \"value\": \"科研开发人员\"\n}\n\
+            \n禁止输出：\n\n{\n  \"field\": \"岗位\",\n  \"operator\": \"contains\",\n  \"\
+            value\": \"科研开发\"\n}\n\n六、contains模糊查询规则\n\n以下情况使用contains：\n\n1. 用户明确使用“包含、含有、带有、带、带着、关键字、相关、类似、模糊查询”等表达。\n\
+            2. 用户使用“以某些字搜索、名字里有、名称中有、字段里有”等包含关系表达。\n3. 用户明确给出了查询字段，但只输入了字段值的一部分。\n\
+            4. 用户希望查询字段中包含某个关键词的全部人员。\n5. 用户输入的是明确的检索关键词，而不是完整字段值。\n\n使用contains时必须遵守：\n\
+            \n1. field必须能够从用户问题和Excel真实表头中唯一确定。\n2. value只能保留用户实际输入的检索词。\n3. 禁止把value补全成Excel中可能存在的完整值。\n\
+            4. 禁止给value添加用户没有输入的前缀或后缀。\n5. 禁止根据常识替换同义词。\n6. 禁止把一个模糊关键词拆分成多个查询条件。\n\
+            7. 如果该关键词可能对应多个字段，并且用户没有明确字段，返回unsupported。\n8. 如果代码候选条件已经返回完整真实值，优先复制候选条件，不要再额外生成contains条件。\n\
+            \n示例一：\n\n用户：\n部门包含研发的人员有哪些？\n\n正确条件：\n\n{\n  \"field\": \"部门\",\n  \"\
+            operator\": \"contains\",\n  \"value\": \"研发\"\n}\n\n禁止把value补全为“研发部”。\n\
+            \n示例二：\n\n用户：\n姓名里带王的员工有多少人？\n\n正确条件：\n\n{\n  \"field\": \"姓名\",\n  \"\
+            operator\": \"contains\",\n  \"value\": \"王\"\n}\n\n示例三：\n\n用户：\n岗位名称中含有工程师的人员名单\n\
+            \n正确条件：\n\n{\n  \"field\": \"岗位\",\n  \"operator\": \"contains\",\n  \"\
+            value\": \"工程师\"\n}\n\n示例四：\n\n用户：\n查一下带研发的人员\n\n如果“研发”可能出现在部门、岗位、人员类型等多个字段中，并且用户没有明确字段，则返回：\n\
+            \n{\n  \"intent\": \"unsupported\",\n  \"conditions\": [],\n  \"requested_fields\"\
+            : []\n}\n\n不得自行选择“部门”“岗位”或“人员类型”。\n\n七、模型自行生成条件的限制\n\n只有同时满足以下条件时，模型才可以自行生成候选条件之外的新条件：\n\
+            \n1. 用户明确表达了查询字段，或者该字段可以与Excel真实表头唯一对应。\n2. 用户明确给出了查询值。\n3. 候选条件中没有包含该条件。\n\
+            4. 字段不属于敏感字段。\n5. 字段和值之间的关系明确。\n\n如果不同时满足以上条件，不要生成该条件。\n\n八、字段名称规则\n\n\
+            1. field必须原样使用Excel真实表头。\n2. 不得输出Excel表头中不存在的标准化字段名。\n3. 如果用户说“职位”，而Excel真实表头中只有“岗位”，并且能够唯一对应，可以使用Excel真实表头“岗位”。\n\
+            4. 如果用户表达可能对应多个Excel表头，返回unsupported。\n5. 不得因为查询值与某个字段在语义上相似，就擅自选择该字段。\n\
+            6. 候选条件已经确定field时，必须使用候选条件中的field。\n\n九、返回字段\n\nrequested_fields必须来自Excel真实表头。\n\
+            \n1. 查询“有哪些人、有谁、名单、分别是谁”时，至少返回Excel中的姓名字段。\n2. 用户明确要求查看哪些字段，就返回对应的Excel真实表头。\n\
+            3. 可以返回查询条件对应的字段，方便用户理解结果。\n4. 查询detail时，返回用户明确要求查看的字段。\n5. 查询count时，如果用户只询问人数，requested_fields返回空数组。\n\
+            6. 禁止返回敏感字段。\n7. 禁止返回Excel中不存在的字段。\n8. 不确定某个返回字段时，不要添加。\n\n十、敏感字段限制\n\n\
+            不得查询或返回以下敏感信息：\n\n身份证号\n证件号码\n证件号\n护照号码\n手机号\n手机号码\n联系电话\n电话号码\n家庭地址\n\
+            家庭住址\n详细地址\n银行卡号\n银行账号\n银行账户\n工资\n月薪\n年薪\n薪资\n薪酬\n奖金\n\n如果用户的查询条件或返回字段涉及敏感信息，intent返回unsupported。\n\
+            \n十一、完整输出示例\n\n示例一：\n\n用户：\n部门包含研发的人员有哪些？\n\n输出：\n\n{\n  \"intent\": \"\
+            list\",\n  \"conditions\": [\n    {\n      \"field\": \"部门\",\n      \"\
+            operator\": \"contains\",\n      \"value\": \"研发\"\n    }\n  ],\n  \"\
+            requested_fields\": [\n    \"姓名\",\n    \"部门\"\n  ]\n}\n\n示例二：\n\n用户：\n\
+            姓名里带王的员工有多少人？\n\n输出：\n\n{\n  \"intent\": \"count\",\n  \"conditions\"\
+            : [\n    {\n      \"field\": \"姓名\",\n      \"operator\": \"contains\"\
+            ,\n      \"value\": \"王\"\n    }\n  ],\n  \"requested_fields\": []\n}\n\
+            \n示例三：\n\n用户：\n岗位中含有工程师的人员分别是谁？\n\n输出：\n\n{\n  \"intent\": \"list\",\n\
+            \  \"conditions\": [\n    {\n      \"field\": \"岗位\",\n      \"operator\"\
+            : \"contains\",\n      \"value\": \"工程师\"\n    }\n  ],\n  \"requested_fields\"\
+            : [\n    \"姓名\",\n    \"岗位\"\n  ]\n}\n\n示例四：\n\n用户：\n科研开发人员有哪些？\n\n代码确定条件：\n\
+            \n字段：人员类型\n值：科研开发人员\n匹配方式：exact_value_match\n\n输出：\n\n{\n  \"intent\"\
+            : \"list\",\n  \"conditions\": [\n    {\n      \"field\": \"人员类型\",\n\
+            \      \"operator\": \"equals\",\n      \"value\": \"科研开发人员\"\n    }\n\
+            \  ],\n  \"requested_fields\": [\n    \"姓名\",\n    \"人员类型\"\n  ]\n}\n\n\
+            示例五：\n\n用户：\n查找包含研发的人员\n\n如果无法唯一确定“研发”对应的Excel字段，输出：\n\n{\n  \"intent\"\
+            : \"unsupported\",\n  \"conditions\": [],\n  \"requested_fields\": []\n\
+            }\n\n七、数值与日期比较规则\n\noperator为gte、lte、gt、lt时，仅用于用户明确指定的数值或日期字段，value只填写比较基准。\n\
+            例如“年龄大于30岁”输出operator为gt、value为30；“司龄不少于3.5年”输出gte和3.5；“入职日期早于2023-01-01”输出lt和2023-01-01。\n\
+            不得把比较条件写成equals或contains；字段、运算符或阈值不明确时返回unsupported。\n\n八、复合OR查询规则\n\n\
+            普通AND查询使用conditions，condition_groups返回空数组。用户有明确“或、或者、任一、其中之一、A/B”语义时，conditions必须为空数组，使用condition_groups。\n\
+            condition_groups为组内AND、组间OR：每个元素包含conditions数组；任一组整体满足即可命中。\n例如“研发部且年龄大于30岁，或者市场部且年龄小于25岁”输出：\n\
+            {\"condition_groups\":[{\"conditions\":[{\"field\":\"部门\",\"operator\"\
+            :\"equals\",\"value\":\"研发部\"},{\"field\":\"年龄\",\"operator\":\"gt\",\"\
+            value\":\"30\"}]},{\"conditions\":[{\"field\":\"部门\",\"operator\":\"equals\"\
+            ,\"value\":\"市场部\"},{\"field\":\"年龄\",\"operator\":\"lt\",\"value\":\"\
+            25\"}]}]}\n单字段多值OR也拆成多个组。候选条件出现在OR问题中时，必须放入对应组并原样保留；不得将OR条件平铺到conditions，否则会被当作AND。\n\
+            \n十二、最终输出要求\n\n1. 只输出符合结构化输出Schema的结果。\n2. 不要输出解释。\n3. 不要输出分析过程。\n4. 不要输出Markdown代码块。\n\
+            5. 不要输出Schema以外的字段。\n6. conditions中不得出现空field、空operator或空value。\n7. intent为unsupported时，conditions必须为空数组。"
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              condition_groups:
+                items:
+                  properties:
+                    conditions:
+                      items:
+                        properties:
+                          field:
+                            type: string
+                          operator:
+                            type: string
+                          value:
+                            type: string
+                        required:
+                        - field
+                        - operator
+                        - value
+                        type: object
+                      type: array
+                  required:
+                  - conditions
+                  type: object
+                type: array
+              conditions:
+                items:
+                  properties:
+                    field:
+                      type: string
+                    operator:
+                      type: string
+                    value:
+                      type: string
+                  required:
+                  - field
+                  - operator
+                  - value
+                  type: object
+                type: array
+              intent:
+                type: string
+              requested_fields:
+                items:
+                  type: string
+                type: array
+            required:
+            - intent
+            - conditions
+            - condition_groups
+            - requested_fields
+            type: object
+        structured_output_enabled: true
+        title: 字段识别
+        type: llm
+        vision:
+          enabled: false
+      height: 116
+      id: '1784166258491'
+      position:
+        x: -200.44485875184597
+        y: -786.561296372126
+      positionAbsolute:
+        x: -200.44485875184597
+        y: -786.561296372126
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Excel file (.xlsx or .xls) to extract text and images from
+            ja_JP: Excel file (.xlsx or .xls) to extract text and images from
+            pt_BR: Excel file (.xlsx or .xls) to extract text and images from
+            zh_Hans: 要提取文本和图片的 Excel 文件 (.xlsx 或 .xls)
+          label:
+            en_US: Excel Content
+            ja_JP: Excel Content
+            pt_BR: Excel Content
+            zh_Hans: Excel 内容
+          llm_description: Excel file content (.xlsx/.xls) to be extracted
+          max: null
+          min: null
+          name: excel_content
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        params:
+          excel_content: ''
+        plugin_id: samanhappy/excel_process
+        plugin_unique_identifier: samanhappy/excel_process:0.0.3@4e912c728cffc52e494ec9e709e9085eb5ab257f4e02e586b8da3abf314eb789
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=1b942f14-5e32-457a-b6d5-374fbab40f5c&filename=32f2ced81eccab02a5077c8dbfcac8a7544539699865df0d768d3f86ebbd7226.svg
+        provider_id: samanhappy/excel_process/excel_process
+        provider_name: samanhappy/excel_process/excel_process
+        provider_show_name: Excel 处理
+        provider_type: builtin
+        selected: false
+        title: Excel 提取器
+        tool_configurations: {}
+        tool_description: 将 Excel (.xlsx/.xls) 表格中的文本与嵌入图片提取出来
+        tool_label: Excel 提取器
+        tool_name: excel_extractor
+        tool_node_version: '2'
+        tool_parameters:
+          excel_content:
+            type: variable
+            value:
+            - '1778747152378'
+            - excel_file
+        type: tool
+      height: 52
+      id: '1784171411058'
+      position:
+        x: -1826.6383127940326
+        y: -631.1766043115492
+      positionAbsolute:
+        x: -1826.6383127940326
+        y: -631.1766043115492
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "import json\nimport re\n\n\ndef main(query=None, employees=None, headers=None):\n\
+          \    \"\"\"\n    根据用户问题和 Excel 真实数据确定候选查询条件。\n\n    支持：\n    - 直接说部门名称，例如“查询市场部人员”\n\
+          \    - 明确字段，例如“二级部门为研发一部”\n    - 层级表达，例如“研发中心下研发一部”\n    - 日期、数值、AND / OR\
+          \ 等条件交给后续查询计划节点解析\n    \"\"\"\n\n    query = str(query or \"\").strip()\n\
+          \    employees = employees or []\n    headers = headers or []\n\n    def\
+          \ format_candidates(candidates):\n        if not candidates:\n         \
+          \   return \"没有找到可由Excel真实数据直接确认的条件。\"\n\n        lines = [\n          \
+          \  \"以下条件由Excel真实数据直接匹配得到，\",\n            \"属于确定性事实，不允许LLM修改：\"\n     \
+          \   ]\n\n        for index, item in enumerate(candidates, start=1):\n  \
+          \          lines.append(\n                f\"{index}. 字段：{item.get('field',\
+          \ '')}；\"\n                f\"值：{item.get('value', '')}；\"\n           \
+          \     f\"匹配方式：{item.get('match_type', '')}\"\n            )\n\n        return\
+          \ \"\\n\".join(lines)\n\n    def result(status, message, candidates=None):\n\
+          \        candidates = candidates or []\n\n        return {\n           \
+          \ \"status\": status,\n            \"message\": message,\n            \"\
+          candidate_count\": len(candidates),\n            \"candidate_json\": json.dumps(\n\
+          \                candidates,\n                ensure_ascii=False\n     \
+          \       ),\n            \"candidate_text\": format_candidates(candidates)\n\
+          \        }\n\n    if not query:\n        return result(\"error\", \"用户问题为空。\"\
+          )\n\n    if not isinstance(employees, list):\n        return result(\"error\"\
+          , \"人员数据格式错误。\")\n\n    if not employees:\n        return result(\"error\"\
+          , \"没有可用于识别查询条件的人员数据。\")\n\n    if not isinstance(headers, list):\n    \
+          \    return result(\"error\", \"Excel表头格式错误。\")\n\n    # 不允许通过人员检索返回的敏感字段\n\
+          \    sensitive_keywords = [\n        \"身份证\",\n        \"证件号\",\n      \
+          \  \"手机号\",\n        \"手机号码\",\n        \"联系电话\",\n        \"电话号码\",\n \
+          \       \"家庭地址\",\n        \"家庭住址\",\n        \"住址\",\n        \"银行卡\",\n\
+          \        \"银行账号\",\n        \"工资\",\n        \"薪资\",\n        \"薪酬\",\n\
+          \        \"奖金\"\n    ]\n\n    def is_sensitive(field):\n        field =\
+          \ str(field or \"\")\n        return any(keyword in field for keyword in\
+          \ sensitive_keywords)\n\n    # 这些字段不适合直接按“值”识别，避免误匹配\n    excluded_value_fields\
+          \ = {\n        \"序号\",\n        \"年龄\",\n        \"司龄\",\n        \"司龄(年)\"\
+          ,\n        \"入职日期\"\n    }\n\n    # 清理真实表头\n    real_fields = []\n\n   \
+          \ for header in headers:\n        field = str(header or \"\").strip()\n\n\
+          \        if not field:\n            continue\n\n        if field not in\
+          \ real_fields:\n            real_fields.append(field)\n\n    # 字段 -> 值集合；值\
+          \ -> 字段集合\n    field_value_index = {}\n    value_field_index = {}\n\n  \
+          \  for field in real_fields:\n        if is_sensitive(field):\n        \
+          \    continue\n\n        if field in excluded_value_fields:\n          \
+          \  continue\n\n        values = set()\n\n        for employee in employees:\n\
+          \            if not isinstance(employee, dict):\n                continue\n\
+          \n            value = str(employee.get(field, \"\")).strip()\n\n       \
+          \     if not value:\n                continue\n\n            # 纯数字不参与普通文本匹配。\n\
+          \            # 防止“2023-01-01”中的数字被误识别为其他字段值。\n            if re.fullmatch(r\"\
+          \\d+(?:\\.\\d+)?\", value):\n                continue\n\n            # 单字值不参与普通匹配，性别后续单独处理\n\
+          \            if len(value) < 2:\n                continue\n\n          \
+          \  values.add(value)\n\n        field_value_index[field] = values\n\n  \
+          \      for value in values:\n            value_field_index.setdefault(value,\
+          \ []).append(field)\n\n    candidates = []\n    forced_values = set()\n\n\
+          \    def add_candidate(field, value, match_type, confidence=1.0):\n    \
+          \    candidates.append({\n            \"field\": field,\n            \"\
+          operator\": \"equals\",\n            \"value\": value,\n            \"match_type\"\
+          : match_type,\n            \"confidence\": confidence\n        })\n\n  \
+          \  # ==================================================\n    # 1. 用户明确写出字段名时，字段名优先\n\
+          \    # 例如：二级部门为研发一部\n    # ==================================================\n\
+          \    for field, values in field_value_index.items():\n        field_pattern\
+          \ = re.compile(\n            re.escape(field)\n            + r\"\\s*(?:为|是|等于|：|:)\\\
+          s*\"\n        )\n\n        for field_match in field_pattern.finditer(query):\n\
+          \            value_start = field_match.end()\n\n            for value in\
+          \ sorted(values, key=len, reverse=True):\n                if query.startswith(value,\
+          \ value_start):\n                    add_candidate(\n                  \
+          \      field,\n                        value,\n                        \"\
+          explicit_field_match\"\n                    )\n\n                    forced_values.add(value)\n\
+          \                    break\n\n    # ==================================================\n\
+          \    # 2. 一级部门下二级部门的层级识别\n    # 例如：研发中心下研发一部\n    # ==================================================\n\
+          \    first_dept_field = \"一级部门\"\n    second_dept_field = \"二级部门\"\n\n \
+          \   if (\n        first_dept_field in field_value_index\n        and second_dept_field\
+          \ in field_value_index\n    ):\n        hierarchy_pairs = set()\n\n    \
+          \    for employee in employees:\n            if not isinstance(employee,\
+          \ dict):\n                continue\n\n            first_dept = str(\n  \
+          \              employee.get(first_dept_field, \"\")\n            ).strip()\n\
+          \n            second_dept = str(\n                employee.get(second_dept_field,\
+          \ \"\")\n            ).strip()\n\n            if first_dept and second_dept:\n\
+          \                hierarchy_pairs.add(\n                    (first_dept,\
+          \ second_dept)\n                )\n\n        for first_dept, second_dept\
+          \ in hierarchy_pairs:\n            hierarchy_pattern = re.compile(\n   \
+          \             re.escape(first_dept)\n                + r\"\\s*(?:下|下面|下属)\\\
+          s*\"\n                + re.escape(second_dept)\n            )\n\n      \
+          \      if hierarchy_pattern.search(query):\n                add_candidate(\n\
+          \                    first_dept_field,\n                    first_dept,\n\
+          \                    \"hierarchy_match\"\n                )\n\n        \
+          \        add_candidate(\n                    second_dept_field,\n      \
+          \              second_dept,\n                    \"hierarchy_match\"\n \
+          \               )\n\n                forced_values.add(first_dept)\n   \
+          \             forced_values.add(second_dept)\n\n    # ==================================================\n\
+          \    # 3. 普通真实值匹配\n    # ==================================================\n\
+          \    matched_spans = []\n\n    for value in sorted(\n        value_field_index.keys(),\n\
+          \        key=len,\n        reverse=True\n    ):\n        if value in forced_values:\n\
+          \            continue\n\n        start = query.find(value)\n\n        if\
+          \ start < 0:\n            continue\n\n        end = start + len(value)\n\
+          \n        covered = any(\n            start >= old_start and end <= old_end\n\
+          \            for old_start, old_end in matched_spans\n        )\n\n    \
+          \    if covered:\n            continue\n\n        fields = value_field_index[value]\n\
+          \n        if len(fields) == 1:\n            add_candidate(\n           \
+          \     fields[0],\n                value,\n                \"exact_value_match\"\
+          \n            )\n\n            matched_spans.append((start, end))\n\n  \
+          \      else:\n            # 同名部门同时出现在一级、二级部门时，\n            # 默认按一级部门查询，使“查询市场部人员”可直接使用。\n\
+          \            department_fields = {\"一级部门\", \"二级部门\"}\n\n            if\
+          \ set(fields).issubset(department_fields):\n                preferred_field\
+          \ = (\n                    \"一级部门\"\n                    if \"一级部门\" in\
+          \ fields\n                    else \"二级部门\"\n                )\n\n     \
+          \           add_candidate(\n                    preferred_field,\n     \
+          \               value,\n                    \"department_default_match\"\
+          \n                )\n\n                matched_spans.append((start, end))\n\
+          \n            else:\n                candidates.append({\n             \
+          \       \"field\": \"\",\n                    \"operator\": \"equals\",\n\
+          \                    \"value\": value,\n                    \"possible_fields\"\
+          : fields,\n                    \"match_type\": \"ambiguous_value_match\"\
+          ,\n                    \"confidence\": 0.0\n                })\n\n    #\
+          \ ==================================================\n    # 4. 性别单字匹配\n\
+          \    # ==================================================\n    gender_fields\
+          \ = [\n        field\n        for field in real_fields\n        if field\
+          \ in [\"性别\", \"员工性别\"]\n    ]\n\n    if len(gender_fields) == 1:\n    \
+          \    gender_field = gender_fields[0]\n\n        gender_patterns = {\n  \
+          \          \"男\": [\n                r\"男性\",\n                r\"男员工\"\
+          ,\n                r\"男职工\",\n                r\"男生\"\n            ],\n\
+          \            \"女\": [\n                r\"女性\",\n                r\"女员工\"\
+          ,\n                r\"女职工\",\n                r\"女生\"\n            ]\n \
+          \       }\n\n        for gender_value, patterns in gender_patterns.items():\n\
+          \            if any(\n                re.search(pattern, query)\n      \
+          \          for pattern in patterns\n            ):\n                add_candidate(\n\
+          \                    gender_field,\n                    gender_value,\n\
+          \                    \"gender_pattern_match\"\n                )\n\n   \
+          \ # ==================================================\n    # 5. 去重\n  \
+          \  # ==================================================\n    unique_candidates\
+          \ = []\n    seen = set()\n\n    for item in candidates:\n        key = (\n\
+          \            item.get(\"field\", \"\"),\n            item.get(\"operator\"\
+          , \"\"),\n            item.get(\"value\", \"\")\n        )\n\n        if\
+          \ key not in seen:\n            seen.add(key)\n            unique_candidates.append(item)\n\
+          \n    candidates = unique_candidates\n\n    # ==================================================\n\
+          \    # 6. 只有未解决的字段歧义才报错\n    # ==================================================\n\
+          \    ambiguous = [\n        item\n        for item in candidates\n     \
+          \   if item.get(\"match_type\")\n        == \"ambiguous_value_match\"\n\
+          \    ]\n\n    if ambiguous:\n        descriptions = []\n\n        for item\
+          \ in ambiguous:\n            descriptions.append(\n                f'“{item[\"\
+          value\"]}”可能属于字段：'\n                + \"、\".join(\n                    item.get(\"\
+          possible_fields\", [])\n                )\n            )\n\n        return\
+          \ result(\n            \"ambiguous\",\n            \"；\".join(descriptions),\n\
+          \            candidates\n        )\n\n    if not candidates:\n        return\
+          \ result(\n            \"no_match\",\n            \"未在用户问题中匹配到Excel真实字段值。\"\
+          ,\n            []\n        )\n\n    return result(\n        \"success\"\
+          ,\n        f\"已确定识别{len(candidates)}个查询条件。\",\n        candidates\n    )"
+        code_language: python3
+        desc: 减少大模型猜错字段和值
+        outputs:
+          candidate_count:
+            children: null
+            type: number
+          candidate_json:
+            children: null
+            type: string
+          candidate_text:
+            children: null
+            type: string
+          message:
+            children: null
+            type: string
+          status:
+            children: null
+            type: string
+        selected: false
+        title: 候选条件识别
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+        - value_selector:
+          - '1784166032256'
+          - employees
+          value_type: array[object]
+          variable: employees
+        - value_selector:
+          - '1784166032256'
+          - headers
+          value_type: array[string]
+          variable: headers
+      height: 80
+      id: '1784186520243'
+      position:
+        x: -502.36880493577866
+        y: -568.0786457822537
+      positionAbsolute:
+        x: -502.36880493577866
+        y: -568.0786457822537
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        answer: '{{#1778747174285.text#}}'
+        selected: false
+        title: 直接回复人员检索结果
+        type: answer
+        variables: []
+      height: 102
+      id: '1784770069384'
+      position:
+        x: 742.609012924895
+        y: -568.0786457822537
+      positionAbsolute:
+        x: 742.609012924895
+        y: -568.0786457822537
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        answer: '成本文件已生成：详表、目标业务线明细，以及与模板一致的三个“行标签 / 计数项 / 求和项 / 总计”预算输出表。
+
+
+          {{#cost_answer.files#}}'
+        selected: false
+        title: 输出预算汇总文件
+        type: answer
+        variables: []
+      height: 150
+      id: budget_file_answer
+      position:
+        x: 596.6311368995446
+        y: -1107.7037535081104
+      positionAbsolute:
+        x: 596.6311368995446
+        y: -1107.7037535081104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            zh_Hans: 单个或多个 Markdown 表格的文本输入，支持工作表；各级标题将依次作为工作表名称。
+          label:
+            zh_Hans: Markdown 表格文本
+          llm_description: ''
+          max: null
+          min: null
+          name: md_text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: 'true'
+          form: form
+          human_description:
+            zh_Hans: 转换单元格值为文本类型，避免显示时的小数精度丢失
+          label:
+            zh_Hans: 强制单元格值为文本类型
+          llm_description: ''
+          max: null
+          min: null
+          name: force_text_value
+          options:
+          - icon: ''
+            label:
+              zh_Hans: 是
+            value: 'true'
+          - icon: ''
+            label:
+              zh_Hans: 否
+            value: 'false'
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            zh_Hans: 可选的自定义输出文件名，后缀名无需指定
+          label:
+            zh_Hans: 输出文件名
+          llm_description: ''
+          max: null
+          min: null
+          name: output_filename
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          force_text_value: ''
+          md_text: ''
+          output_filename: ''
+        plugin_id: bowenliang123/md_exporter
+        plugin_unique_identifier: bowenliang123/md_exporter:3.6.9@3f027d63e80b44d5d5a9f706871afaef37905b8f8a89a2d152dc530211a8acb1
+        provider_id: bowenliang123/md_exporter/md_exporter
+        provider_name: bowenliang123/md_exporter/md_exporter
+        provider_show_name: Markdown 转换器
+        provider_type: builtin
+        selected: false
+        title: 生成三Sheet预算文件
+        tool_configurations:
+          force_text_value:
+            type: constant
+            value: 'true'
+        tool_description: 将 Markdown 表格转换为 XLSX 文件的工具
+        tool_label: Markdown 表格 ⮕ XLSX
+        tool_name: md_to_xlsx
+        tool_node_version: '2'
+        tool_parameters:
+          md_text:
+            type: mixed
+            value: '{{#cost_query.result#}}'
+          output_filename:
+            type: mixed
+            value: 人力智算AI助手-预算汇总
+        type: tool
+      height: 88
+      id: cost_answer
+      position:
+        x: 306.5800599181843
+        y: -1107.7037535081104
+      positionAbsolute:
+        x: 306.5800599181843
+        y: -1107.7037535081104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "import json\n\ndef main(budget_records=None, query=None, detail_headers=None,\
+          \ detail_keys=None):\n    rows=budget_records or []\n    if isinstance(rows,str):\n\
+          \        try: rows=json.loads(rows)\n        except: rows=[]\n    if not\
+          \ rows: return {\"result\":\"未识别到可输出的成本明细。\"}\n    def n(value):\n     \
+          \   try: return float(value or 0)\n        except: return 0.0\n    def display(value,\
+          \ header=\"\"):\n        if isinstance(value,(int,float)):\n           \
+          \ if abs(value)<1e-9:\n                return \"0.00\" if \"非货币性福利\" in\
+          \ header else \"\"\n            if \"投入\" in header and \"占比\" in header:\
+          \ return (f\"{value:.2f}\").rstrip(\"0\").rstrip(\".\")\n            return\
+          \ f\"{value:,.2f}\"\n        return str(value or \"\").replace(\"|\",\"\
+          ｜\").replace(\"\\n\",\" \")\n    def table(headers, body):\n        lines=[\"\
+          | \"+\" | \".join(headers)+\" |\",\"|\"+\"|\".join([\"---\"]*len(headers))+\"\
+          |\"]\n        lines += [\"| \"+\" | \".join(display(value, headers[index]\
+          \ if index < len(headers) else \"\") for index,value in enumerate(row))+\"\
+          \ |\" for row in body]\n        return \"\\n\".join(lines)\n    metrics=[\n\
+          \        (\"年度税前工资（含基本工资、交补、专业证书补贴）\",\"求和项:年度税前工资（含基本工资、交补、专业证书补贴）\"),(\"\
+          年度单位社保公积金合计\",\"求和项:年度单位社保公积金合计\"),(\"年度绩效（8折）\",\"求和项:年度绩效（8折）\"),(\"转移重庆租房福利\"\
+          ,\"求和项:转移重庆租房福利\"),(\"非货币性福利\",\"求和项:非货币性福利\"),(\"餐补\",\"求和项:餐补\"),(\"探亲福利费\"\
+          ,\"求和项:探亲福利费\"),(\"专利奖金\",\"求和项:专利奖金\"),(\"体检费\",\"求和项:体检费\"),(\"团建费\",\"\
+          求和项:团建费\"),(\"补充医疗\",\"求和项:补充医疗\"),(\"工会经费\",\"求和项:工会经费\"),(\"补偿金\",\"求和项:补偿金\"\
+          ),(\"人工成本合计\",\"求和项:人工成本合计\")]\n    def totals(group, fields): return [sum(n(row.get(field))\
+          \ for row in group) for field in fields]\n    def pivot(title, levels):\n\
+          \        headers=[\"行标签\",\"计数项:姓名\"]+[label for _,label in metrics]\n \
+          \       fields=[field for field,_ in metrics]; body=[]\n        def descend(group,\
+          \ remaining, depth=0):\n            field=remaining[0]; buckets={}\n   \
+          \         for row in group: buckets.setdefault(str(row.get(field,\"未填写\"\
+          ) or \"未填写\"),[]).append(row)\n            for label,items in sorted(buckets.items()):\n\
+          \                body.append([\"　\"*depth+label,len(items)]+totals(items,fields))\n\
+          \                if len(remaining)>1: descend(items,remaining[1:],depth+1)\n\
+          \        descend(rows,levels)\n        body.append([\"总计\",len(rows)]+totals(rows,fields))\n\
+          \        return \"# \"+title+\"\\n\"+table(headers,body)\n    text=str(query\
+          \ or \"\")\n    line=\"交通\"\n    if \"汽车\" in text: line=\"汽车\"\n    elif\
+          \ \"研发平台\" in text or \"预研项目\" in text: line=\"研发平台\"\n    elif \"测试平台\"\
+          \ in text or \"自动化测试平台\" in text: line=\"测试平台\"\n    ratio_field={\"交通\"\
+          :\"投入交通工时占比\",\"汽车\":\"投入汽车工时占比\",\"研发平台\":\"投入预研项目工时占比\",\"测试平台\":\"投入自动化测试平台工时占比\"\
+          }[line]\n    # 目标业务线不展示个人明细：按一级部门、二级部门逐层汇总业务线相关指标。\n    target_metric_fields=[ratio_field,f\"\
+          税前工资-{line}\",f\"单位社保公积金-{line}\",f\"年度绩效-{line}\",f\"工会经费-{line}\",f\"\
+          专利奖金-{line}\",f\"福利费-{line}\"]\n    target_metric_headers=[\"求和项:投入比例\"\
+          ,\"求和项:税前工资\",\"求和项:单位社保公积金\",\"求和项:年度绩效\",\"求和项:工会经费\",\"求和项:专利奖金\",\"\
+          求和项:福利费\"]\n    if line!=\"测试平台\":\n        target_metric_fields.append(f\"\
+          补偿金-{line}\")\n        target_metric_headers.append(\"求和项:补偿金\")\n    target_metric_fields.append(f\"\
+          合计-{line}\")\n    target_metric_headers.append(\"求和项:人工成本合计\")\n    target_headers=[\"\
+          行标签\",\"计数项:姓名\"]+target_metric_headers\n    target_body=[]\n    # 仅保留当前业务线实际有投入或成本的人员及其所属部门。\n\
+          \    active_rows=[row for row in rows if abs(n(row.get(f\"合计-{line}\")))>1e-9\
+          \ or abs(n(row.get(ratio_field)))>1e-9]\n    primary_groups={}\n    for\
+          \ row in active_rows: primary_groups.setdefault(str(row.get(\"一级部门\",\"\"\
+          ) or \"未填写\"),[]).append(row)\n    for primary,primary_rows in sorted(primary_groups.items()):\n\
+          \        target_body.append([primary,len(primary_rows)]+totals(primary_rows,target_metric_fields))\n\
+          \        secondary_groups={}\n        for row in primary_rows: secondary_groups.setdefault(str(row.get(\"\
+          二级部门\",\"\") or \"未填写\"),[]).append(row)\n        for secondary,secondary_rows\
+          \ in sorted(secondary_groups.items()):\n            target_body.append([\"\
+          　\"+secondary,len(secondary_rows)]+totals(secondary_rows,target_metric_fields))\n\
+          \    target_body.append([\"总计\",len(active_rows)]+totals(active_rows,target_metric_fields))\n\
+          \    # 与模板“预算输出需求3”保持同一宽表口径。\n    business_headers=[\"行标签\",\"计数项:姓名\",\"\
+          求和项:投入交通工时占比\",\"求和项:投入汽车工时占比\",\"求和项:投入预研项目工时占比\",\"求和项:投入自动化测试平台工时占比\"\
+          ]\n    business_fields=[\"投入交通工时占比\",\"投入汽车工时占比\",\"投入预研项目工时占比\",\"投入自动化测试平台工时占比\"\
+          ]\n    for item in [\"交通\",\"汽车\",\"研发平台\"]:\n        business_headers +=\
+          \ [f\"求和项:税前工资-{item}\",f\"求和项:单位社保公积金-{item}\",f\"求和项:年度绩效-{item}\",f\"\
+          求和项:工会经费-{item}\",f\"求和项:专利奖金-{item}\",f\"求和项:福利费-{item}\",f\"求和项:补偿金-{item}\"\
+          ,f\"求和项:合计-{item}\"]\n        business_fields += [f\"税前工资-{item}\",f\"单位社保公积金-{item}\"\
+          ,f\"年度绩效-{item}\",f\"工会经费-{item}\",f\"专利奖金-{item}\",f\"福利费-{item}\",f\"\
+          补偿金-{item}\",f\"合计-{item}\"]\n    item=\"测试平台\"\n    business_headers +=\
+          \ [f\"求和项:税前工资-{item}\",f\"求和项:单位社保公积金-{item}\",f\"求和项:年度绩效-{item}\",f\"\
+          求和项:工会经费-{item}\",f\"求和项:专利奖金-{item}\",f\"求和项:福利费-{item}\",f\"求和项:合计-{item}\"\
+          ]\n    business_fields += [f\"税前工资-{item}\",f\"单位社保公积金-{item}\",f\"年度绩效-{item}\"\
+          ,f\"工会经费-{item}\",f\"专利奖金-{item}\",f\"福利费-{item}\",f\"合计-{item}\"]\n   \
+          \ groups={}\n    for row in rows: groups.setdefault((str(row.get(\"一级部门\"\
+          ,\"未填写\")),str(row.get(\"二级部门\",\"未填写\"))),[]).append(row)\n    business_body=[]\n\
+          \    for (primary,secondary),items in sorted(groups.items()): business_body.append([primary+\"\
+          \ / \"+secondary,len(items)]+totals(items,business_fields))\n    business_body.append([\"\
+          总计\",len(rows)]+totals(rows,business_fields))\n    detail_keys=detail_keys\
+          \ if isinstance(detail_keys,list) and detail_keys else list(rows[0].keys())\n\
+          \    detail_headers=detail_headers if isinstance(detail_headers,list) and\
+          \ len(detail_headers)==len(detail_keys) else detail_keys\n    detail_body=[[row.get(field,\"\
+          \") for field in detail_keys] for row in rows]\n    # 0903 详表：AJ 起的金额计算、工时比例及业务线拆分字段汇总；AE:AI\
+          \ 为逐人参数，不相加。\n    detail_total_fields=set(detail_keys[35:])\n    detail_total=[]\n\
+          \    for field in detail_keys:\n        if field==\"序号\": detail_total.append(\"\
+          合计\")\n        elif field==\"姓名\": detail_total.append(f\"{len(rows)}人\"\
+          )\n        elif field in detail_total_fields: detail_total.append(sum(n(row.get(field))\
+          \ for row in rows))\n        else: detail_total.append(\"\")\n    detail_body.append(detail_total)\n\
+          \    sections=[\"# 人工成本详表（A到CF）\\n\"+table(detail_headers,detail_body),\"\
+          # 目标业务线成本明细-\"+line+\"业务\\n\"+table(target_headers,target_body),pivot(\"\
+          预算输出需求1-按公司、一级、二级部门输出\",[\"公司主体\",\"一级部门\",\"二级部门\"]),pivot(\"预算输出需求2-按费用类别输出\"\
+          ,[\"费用类别\",\"一级部门\",\"二级部门\"]),\"# 预算输出需求3-按业务线输出\\n\"+table(business_headers,business_body)]\n\
+          \    return {\"result\":\"\\n\\n\".join(sections)}\n"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 生成模板式五张成本输出表
+        type: code
+        variables:
+        - value_selector:
+          - '1784166032256'
+          - budget_records
+          value_type: array[object]
+          variable: budget_records
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+        - value_selector:
+          - '1784166032256'
+          - headers
+          value_type: array[string]
+          variable: detail_headers
+        - value_selector:
+          - '1784166032256'
+          - detail_keys
+          value_type: array[string]
+          variable: detail_keys
+      height: 52
+      id: cost_query
+      position:
+        x: -20.140787401256546
+        y: -1125.7874951335934
+      positionAbsolute:
+        x: -20.140787401256546
+        y: -1125.7874951335934
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        answer: '招聘人工成本方案已生成。当前版本使用30元素以内的兼容结构；用户指定参数优先，未指定项参考底表，人工成本合计自动重算。
+
+
+          {{#hire_export.files#}}'
+        selected: false
+        title: 输出招聘优化文件
+        type: answer
+        variables: []
+      height: 166
+      id: hire_answer
+      position:
+        x: 785
+        y: -1440
+      positionAbsolute:
+        x: 785
+        y: -1440
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "import json\nimport re\n\ndef main(budget_records=None, plan=None,\
+          \ query=None, detail_headers=None, detail_keys=None, source_status=None,\
+          \ source_message=None):\n    try: rows = json.loads(budget_records) if isinstance(budget_records,\
+          \ str) else (budget_records or [])\n    except Exception: rows = []\n  \
+          \  try: plan = json.loads(plan) if isinstance(plan, str) else (plan or {})\n\
+          \    except Exception: plan = {}\n\n    def text(v): return \"\" if v is\
+          \ None else str(v).strip()\n    def num(v):\n        try: return float(v\
+          \ or 0)\n        except Exception: return 0.0\n    def median(group, field,\
+          \ include_zero=False):\n        values = sorted(num(row.get(field)) for\
+          \ row in group if include_zero or num(row.get(field)) > 0)\n        return\
+          \ values[len(values)//2] if values else 0.0\n    def mode(group, field):\n\
+          \        counts = {}\n        for row in group:\n            value = text(row.get(field))\n\
+          \            if value: counts[value] = counts.get(value, 0) + 1\n      \
+          \  return sorted(counts, key=lambda value: (-counts[value], value))[0] if\
+          \ counts else \"\"\n    def bounded_int(v, low, high, default):\n      \
+          \  value = int(num(v))\n        return value if low <= value <= high else\
+          \ default\n    def md(v): return text(v).replace(\"|\", \"｜\").replace(\"\
+          \\n\", \" \")\n    def table(headers, body):\n        lines = [\"| \" +\
+          \ \" | \".join(headers) + \" |\", \"|\" + \"|\".join([\"---\"]*len(headers))\
+          \ + \"|\"]\n        lines += [\"| \" + \" | \".join(md(v) for v in row)\
+          \ + \" |\" for row in body]\n        return \"\\n\".join(lines)\n\n    employees\
+          \ = [r for r in rows if isinstance(r, dict) and not text(r.get(\"姓名\")).startswith(\"\
+          待招\") and not text(r.get(\"姓名\")).startswith(\"待优化\")]\n    query_text =\
+          \ text(query)\n\n    def parse_budget(value):\n        hit = re.search(r\"\
+          (?:今年)?(?:新增)?预算(?:结余)?(?:为|是|有|[:：])?\\s*([0-9]+(?:\\.[0-9]+)?)\\s*(万元|万|元)?\"\
+          , value)\n        if not hit: return None\n        amount = float(hit.group(1))\n\
+          \        return amount*10000 if hit.group(2) in (\"万\", \"万元\") else amount\n\
+          \n    def parse_requests(value):\n        result = []\n        pattern =\
+          \ r\"([一-龥A-Za-z0-9（）()·_-]{1,30}?(?:部|中心|室|组))\\s*(?:计划)?待招\\s*([0-9]+)\\\
+          s*人\"\n        for hit in re.finditer(pattern, value):\n            name\
+          \ = hit.group(1).strip(\"，,。；;、 \")\n            name = {\"研发部\":\"研发中心\"\
+          }.get(name, name)\n            for sep in (\"，\", \",\", \"。\", \"；\", \"\
+          ;\", \"、\"):\n                if sep in name: name = name.split(sep)[-1].strip()\n\
+          \            secondary = [r for r in employees if text(r.get(\"二级部门\"))\
+          \ == name]\n            primary = [r for r in employees if text(r.get(\"\
+          一级部门\")) == name]\n            result.append({\"一级部门\": text(secondary[0].get(\"\
+          一级部门\")) if secondary else (name if primary else \"\"), \"二级部门\": name if\
+          \ secondary or not primary else \"\", \"待招人数\": int(hit.group(2))})\n  \
+          \      return result\n\n    budget_from_query = parse_budget(query_text)\n\
+          \    if budget_from_query is not None: plan[\"budget_balance\"] = budget_from_query\n\
+          \    hard_requests = parse_requests(query_text)\n    model_departments =\
+          \ plan.get(\"departments\") or []\n    model_by_name = {text(x.get(\"二级部门\"\
+          ) or x.get(\"一级部门\")): x for x in model_departments if isinstance(x, dict)}\n\
+          \    requests = []\n    for hard in hard_requests:\n        model = model_by_name.get(hard[\"\
+          二级部门\"] or hard[\"一级部门\"], {})\n        merged = dict(model); merged.update(hard)\n\
+          \        merged[\"priority\"] = text(model.get(\"priority\")).lower() if\
+          \ text(model.get(\"priority\")).lower() in (\"high\", \"medium\", \"low\"\
+          ) else \"medium\"\n        merged[\"schedules\"] = model.get(\"schedules\"\
+          ) or []\n        requests.append(merged)\n    if not requests: requests\
+          \ = [x for x in model_departments if isinstance(x, dict)]\n\n    def peer_group(req):\n\
+          \        d1, d2, job = text(req.get(\"一级部门\")), text(req.get(\"二级部门\")),\
+          \ text(req.get(\"岗位偏好\"))\n        levels = []\n        if d2 and job: levels.append(([r\
+          \ for r in employees if text(r.get(\"二级部门\")) == d2 and text(r.get(\"岗位\"\
+          )) == job], \"同二级部门同岗位\"))\n        if d2: levels.append(([r for r in employees\
+          \ if text(r.get(\"二级部门\")) == d2], \"同二级部门\"))\n        if d1 and job: levels.append(([r\
+          \ for r in employees if text(r.get(\"一级部门\")) == d1 and text(r.get(\"岗位\"\
+          )) == job], \"同一级部门同岗位\"))\n        if d1: levels.append(([r for r in employees\
+          \ if text(r.get(\"一级部门\")) == d1], \"同一级部门\"))\n        for group, label\
+          \ in levels:\n            if group: return group, label\n        return\
+          \ [], \"无可比样本\"\n\n    allowed_overrides = {\"基本工资\",\"交通补贴\",\"专业证书补贴\"\
+          ,\"单位社保公积金月金额\",\"单位社保公积金比例\",\"餐补\",\"租房补贴\",\"非货币性福利\",\"探亲福利费\",\"专利奖金\"\
+          ,\"补偿金\",\"体检费\",\"团建费\",\"补充医疗\",\"入职月份\",\"在岗月数\",\"绩效核算月数\",\"绩效折扣比例\"\
+          ,\"社保公积金年度上涨比例\",\"工会经费计提比例\"}\n    def clean_overrides(value):\n      \
+          \  # v6紧凑格式：[{\"字段\":\"基本工资\",\"数值\":18000}]；同时兼容v5对象格式。\n        if isinstance(value,\
+          \ list):\n            result = {}\n            for item in value:\n    \
+          \            if not isinstance(item, dict): continue\n                key,\
+          \ raw = text(item.get(\"字段\")), item.get(\"数值\")\n                if key\
+          \ in allowed_overrides and raw is not None and str(raw).strip() != \"\"\
+          : result[key] = num(raw)\n            return result\n        if isinstance(value,\
+          \ dict):\n            return {k:num(v) for k,v in value.items() if k in\
+          \ allowed_overrides and v is not None and str(v).strip() != \"\"}\n    \
+          \    return {}\n\n    global_overrides = clean_overrides(plan.get(\"全局指定参数\"\
+          ))\n\n    def profile(req, group, schedule):\n        overrides = dict(global_overrides)\n\
+          \        overrides.update(clean_overrides(req.get(\"指定参数\")))\n        overrides.update(clean_overrides(schedule.get(\"\
+          指定参数\")))\n        entry_default = bounded_int(schedule.get(\"建议入职月份\"),\
+          \ 1, 12, 1)\n        entry = bounded_int(overrides.get(\"入职月份\", entry_default),\
+          \ 1, 12, entry_default)\n        if \"在岗月数\" in overrides and \"入职月份\" not\
+          \ in overrides:\n            months = bounded_int(overrides[\"在岗月数\"], 1,\
+          \ 12, 13-entry)\n            entry = 13-months\n        else:\n        \
+          \    months = 13-entry\n        perf_default = bounded_int(schedule.get(\"\
+          绩效核算月数\"), 0, months, 0)\n        perf_months = bounded_int(overrides.get(\"\
+          绩效核算月数\", perf_default), 0, months, perf_default)\n\n        # 经常性月度参数采用可比人员中位数；不直接复用现有“人工成本合计”。\n\
+          \        basic = median(group, \"基本工资(元)\")\n        transport = median(group,\
+          \ \"交通补贴\", True)\n        certificate = median(group, \"专业证书补贴\", True)\n\
+          \        meal_month = median(group, \"餐补（输入）\", True)\n        rent_month\
+          \ = median(group, \"租房补贴\", True)\n        discount = median(group, \"绩效折扣比例\"\
+          , True)\n        growth = median(group, \"社保公积金年度上涨比例\") or 1.0\n      \
+          \  company = text(req.get(\"公司主体\")) or mode(group, \"公司主体\")\n        union_rate\
+          \ = median(group, \"工会经费计提比例\", True)\n        if union_rate <= 0: union_rate\
+          \ = 0.016 if \"北京\" in company else (0.02 if \"重庆\" in company else 0)\n\
+          \n        # 用户指定值覆盖底表参考值；只覆盖明确出现的字段。\n        basic = overrides.get(\"基本工资\"\
+          , basic)\n        transport = overrides.get(\"交通补贴\", transport)\n     \
+          \   certificate = overrides.get(\"专业证书补贴\", certificate)\n        meal_month\
+          \ = overrides.get(\"餐补\", meal_month)\n        rent_month = overrides.get(\"\
+          租房补贴\", rent_month)\n        discount = overrides.get(\"绩效折扣比例\", discount)\n\
+          \        growth = overrides.get(\"社保公积金年度上涨比例\", growth)\n        union_rate\
+          \ = overrides.get(\"工会经费计提比例\", union_rate)\n\n        # 按公司/同类人员政策取典型固定值；偶发奖金和离职补偿不进入基准招聘成本。\n\
+          \        checkup = median(group, \"体检费（输入）\", True)\n        team = median(group,\
+          \ \"团建费（输入）\", True)\n        medical = median(group, \"补充医疗（输入）\", True)\n\
+          \        patent = overrides.get(\"专利奖金\", 0.0)\n        compensation = overrides.get(\"\
+          补偿金\", 0.0)\n        visit_default = 0.0 if (\"北京\" in company or \"重庆\"\
+          \ in company) else median(group, \"探亲福利费（输入）\", True)\n        noncash_default\
+          \ = 0.0 if (\"北京\" in company or \"重庆\" in company) else (median(group,\
+          \ \"非货币性福利\", True) or 3000.0)\n        visit = overrides.get(\"探亲福利费\"\
+          , visit_default)\n        noncash = overrides.get(\"非货币性福利\", noncash_default)\n\
+          \        checkup = overrides.get(\"体检费\", checkup)\n        team = overrides.get(\"\
+          团建费\", team)\n        medical = overrides.get(\"补充医疗\", medical)\n\n   \
+          \     if \"单位社保公积金月金额\" in overrides:\n            social_month = overrides[\"\
+          单位社保公积金月金额\"]\n        else:\n            social_month = basic*overrides.get(\"\
+          单位社保公积金比例\", 0.48)\n        salary = (basic+transport+certificate)*months\n\
+          \        social = social_month*months*growth\n        performance = basic*perf_months*discount\n\
+          \        transfer = rent_month*months\n        meal = meal_month*months\n\
+          \        union = (salary+performance+patent)*union_rate\n        total =\
+          \ salary+social+performance+transfer+noncash+meal+visit+patent+checkup+team+medical+union+compensation\n\
+          \        return locals()\n\n    priority_rank = {\"high\": 0, \"medium\"\
+          : 1, \"low\": 2}\n    departments, slots = [], []\n    for req_index, req\
+          \ in enumerate(requests):\n        need = max(0, int(num(req.get(\"待招人数\"\
+          ))))\n        group, reference = peer_group(req)\n        schedules = req.get(\"\
+          schedules\") or []\n        departments.append({\"req\": req, \"need\":\
+          \ need, \"group\": group, \"reference\": reference})\n        for person_index\
+          \ in range(need):\n            schedule = schedules[person_index] if person_index\
+          \ < len(schedules) and isinstance(schedules[person_index], dict) else {\"\
+          建议入职月份\": 1, \"建议在岗月数\": 12, \"绩效核算月数\": 0, \"说明\": \"模型未提供时间时按1月入职测算\"\
+          }\n            p = profile(req, group, schedule) if group else None\n  \
+          \          slots.append((priority_rank.get(text(req.get(\"priority\")).lower(),\
+          \ 1), person_index, req_index, p, schedule))\n\n    slots.sort(key=lambda\
+          \ x: (x[0], x[1], x[2]))\n    budget = max(0, num(plan.get(\"budget_balance\"\
+          ))); remaining = budget\n    selected = []; counts = {i: 0 for i in range(len(departments))}\n\
+          \    for _, _, req_index, p, schedule in slots:\n        if p and p[\"total\"\
+          ] <= remaining+0.000001:\n            remaining -= p[\"total\"]; counts[req_index]\
+          \ += 1; selected.append((req_index, p, schedule))\n\n    keys = detail_keys\
+          \ if isinstance(detail_keys, list) and detail_keys else []\n    headers\
+          \ = detail_headers if isinstance(detail_headers, list) and len(detail_headers)\
+          \ == len(keys) else keys\n    if \"人工成本合计\" in keys:\n        limit = keys.index(\"\
+          人工成本合计\")+1; keys = keys[:limit]; headers = headers[:limit]\n    if not\
+          \ keys:\n        keys = headers = [\"序号\", \"姓名\", \"一级部门\", \"二级部门\", \"\
+          岗位\", \"基本工资(元)\", \"在岗月数\", \"人工成本合计\"]\n\n    detail_body=[]; per_department={i:0\
+          \ for i in range(len(departments))}\n    for seq,(req_index,p,schedule)\
+          \ in enumerate(selected,1):\n        per_department[req_index]+=1; info=departments[req_index];\
+          \ req=info[\"req\"]; group=info[\"group\"]\n        d1,d2=text(req.get(\"\
+          一级部门\")),text(req.get(\"二级部门\"))\n        record={\n            \"序号\":seq,\"\
+          姓名\":f\"待招-{d2 or d1}-{per_department[req_index]:02d}\",\"年龄\":\"\",\"一级部门\"\
+          :d1,\"二级部门\":d2,\n            \"岗位\":text(req.get(\"岗位偏好\")) or mode(group,\"\
+          岗位\"),\"学历\":text(req.get(\"学历要求\")) or mode(group,\"学历\"),\n          \
+          \  \"性别\":\"\",\"政治面貌\":\"\",\"司龄(年)\":\"\",\"入职日期\":f\"建议{p['entry']}月入职\"\
+          ,\"民族\":\"\",\n            \"人员类型\":text(req.get(\"人员类型\")) or mode(group,\"\
+          人员类型\"),\"公司主体\":p[\"company\"],\n            \"费用类别\":text(req.get(\"费用类别\"\
+          )) or mode(group,\"费用类别\"),\"基本工资(元)\":p[\"basic\"],\"交通补贴\":p[\"transport\"\
+          ],\n            \"专业证书补贴\":p[\"certificate\"],\"单位社保公积金(元)\":p[\"social_month\"\
+          ],\"餐补（输入）\":p[\"meal_month\"],\n            \"租房补贴\":p[\"rent_month\"],\"\
+          探亲福利费（输入）\":p[\"visit\"],\"专利奖金（输入）\":p[\"patent\"],\"体检费（输入）\":p[\"checkup\"\
+          ],\n            \"团建费（输入）\":p[\"team\"],\"补充医疗（输入）\":p[\"medical\"],\"补偿金（输入）\"\
+          :p[\"compensation\"],\"在岗月数\":p[\"months\"],\n            \"绩效核算月数\":p[\"\
+          perf_months\"],\"绩效折扣比例\":p[\"discount\"],\"社保公积金年度上涨比例\":p[\"growth\"],\n\
+          \            \"工会经费计提比例\":p[\"union_rate\"],\"年度税前工资（含基本工资、交补、专业证书补贴）\"\
+          :p[\"salary\"],\n            \"年度单位社保公积金合计\":p[\"social\"],\"年度绩效（8折）\"\
+          :p[\"performance\"],\"转移重庆租房福利\":p[\"transfer\"],\n            \"非货币性福利\"\
+          :p[\"noncash\"],\"餐补\":p[\"meal\"],\"探亲福利费\":p[\"visit\"],\"专利奖金\":p[\"\
+          patent\"],\"体检费\":p[\"checkup\"],\n            \"团建费\":p[\"team\"],\"补充医疗\"\
+          :p[\"medical\"],\"工会经费\":p[\"union\"],\"补偿金\":p[\"compensation\"],\"人工成本合计\"\
+          :p[\"total\"]}\n        detail_body.append([record.get(key,\"\") for key\
+          \ in keys])\n\n    summary_headers=[\"一级部门\",\"二级部门\",\"岗位\",\"待招人数\",\"\
+          建议招聘人数\",\"未满足人数\",\"参考样本数\",\"参考范围\",\"优先级\",\"预计人工成本\"]\n    summary_body=[]\n\
+          \    for i,info in enumerate(departments):\n        req=info[\"req\"]; cost=sum(p[\"\
+          total\"] for idx,p,_ in selected if idx==i)\n        summary_body.append([text(req.get(\"\
+          一级部门\")),text(req.get(\"二级部门\")),text(req.get(\"岗位偏好\")),info[\"need\"],counts[i],info[\"\
+          need\"]-counts[i],len(info[\"group\"]),info[\"reference\"],text(req.get(\"\
+          priority\")),round(cost,2)])\n\n    advice=[[\"新增预算结余\",round(budget,2)],[\"\
+          预计人工成本\",round(budget-remaining,2)],[\"预计剩余预算\",round(remaining,2)],[\"\
+          待招总人数\",sum(x[\"need\"] for x in departments)],[\"建议招聘总人数\",len(selected)],[\"\
+          计算范围\",\"当前只计算人工成本合计，暂不计算业务线投入。\"],[\"参数覆盖口径\",\"用户指定值优先；未指定项参考底表；年度结果和人工成本合计自动重算。\"\
+          ]]\n    for i,item in enumerate(plan.get(\"recommendations\") or [],1):\
+          \ advice.append([f\"优化建议{i}\",item])\n    if not employees: advice.extend([[\"\
+          底表解析状态\",text(source_status) or \"error\"],[\"底表解析信息\",text(source_message)\
+          \ or \"未获得现有人员记录\"]])\n    if not selected: advice.append([\"结果提示\",\"当前预算、建议入职时间或参考成本下没有可执行招聘名额。\"\
+          ])\n    return {\"result\":\"\\n\\n\".join([\"# 模拟待招人员明细\\n\"+table(headers,detail_body\
+          \ or [[\"无可执行招聘方案\"]+[\"\"]*(len(headers)-1)]),\"# 部门招聘汇总\\n\"+table(summary_headers,summary_body\
+          \ or [[\"未识别部门\"]+[\"\"]*(len(summary_headers)-1)]),\"# 人工成本口径与招聘建议\\n\"\
+          +table([\"项目\",\"内容\"],advice)])}\n"
+        code_language: python3
+        desc: 支持全局、部门/岗位和单人三级覆盖并自动重算。
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 生成招聘明细与建议
+        type: code
+        variables:
+        - value_selector:
+          - '1784166032256'
+          - budget_records
+          value_type: array[object]
+          variable: budget_records
+        - value_selector:
+          - hire_llm
+          - structured_output
+          value_type: object
+          variable: plan
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+        - value_selector:
+          - '1784166032256'
+          - headers
+          value_type: array[string]
+          variable: detail_headers
+        - value_selector:
+          - '1784166032256'
+          - detail_keys
+          value_type: array[string]
+          variable: detail_keys
+        - value_selector:
+          - '1784166032256'
+          - status
+          value_type: string
+          variable: source_status
+        - value_selector:
+          - '1784166032256'
+          - message
+          value_type: string
+          variable: source_message
+      height: 96
+      id: hire_build
+      position:
+        x: 135
+        y: -1440
+      positionAbsolute:
+        x: 135
+        y: -1440
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            zh_Hans: 单个或多个 Markdown 表格的文本输入，支持工作表；各级标题将依次作为工作表名称。
+          label:
+            zh_Hans: Markdown 表格文本
+          llm_description: ''
+          max: null
+          min: null
+          name: md_text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: 'true'
+          form: form
+          human_description:
+            zh_Hans: 转换单元格值为文本类型，避免显示时的小数精度丢失
+          label:
+            zh_Hans: 强制单元格值为文本类型
+          llm_description: ''
+          max: null
+          min: null
+          name: force_text_value
+          options:
+          - icon: ''
+            label:
+              zh_Hans: 是
+            value: 'true'
+          - icon: ''
+            label:
+              zh_Hans: 否
+            value: 'false'
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            zh_Hans: 可选的自定义输出文件名，后缀名无需指定
+          label:
+            zh_Hans: 输出文件名
+          llm_description: ''
+          max: null
+          min: null
+          name: output_filename
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          force_text_value: ''
+          md_text: ''
+          output_filename: ''
+        plugin_id: bowenliang123/md_exporter
+        plugin_unique_identifier: bowenliang123/md_exporter:3.6.9@3f027d63e80b44d5d5a9f706871afaef37905b8f8a89a2d152dc530211a8acb1
+        provider_id: bowenliang123/md_exporter/md_exporter
+        provider_name: bowenliang123/md_exporter/md_exporter
+        provider_show_name: Markdown 转换器
+        provider_type: builtin
+        selected: false
+        title: 生成招聘优化Excel
+        tool_configurations:
+          force_text_value:
+            type: constant
+            value: 'true'
+        tool_description: 将 Markdown 表格转换为 XLSX 文件的工具
+        tool_label: Markdown 表格 ⮕ XLSX
+        tool_name: md_to_xlsx
+        tool_node_version: '2'
+        tool_parameters:
+          md_text:
+            type: mixed
+            value: '{{#hire_build.result#}}'
+          output_filename:
+            type: mixed
+            value: 人力智算AI助手-招聘人工成本方案
+        type: tool
+      height: 88
+      id: hire_export
+      position:
+        x: 460
+        y: -1440
+      positionAbsolute:
+        x: 460
+        y: -1440
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        desc: 采用30元素以内的紧凑Schema，识别预算、招聘人数及用户明确指定的成本参数。
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: qwen3:32b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - id: b332c7bf-19cf-4ffd-9128-b49759df5c84
+          role: system
+          text: '你是招聘计划参数提取与建议助手。当前阶段只完善人工成本合计，不处理业务线投入。
+
+
+            用户输入：
+
+            {{{#sys.query#}}}
+
+
+            现有人员参考数据：
+
+            {{{#hire_prepare.reference_summary#}}}
+
+
+            规则：
+
+            1. 准确提取预算结余、部门、待招人数，以及用户明确给出的岗位、学历、人员类型、公司主体、费用类别。
+
+            2. 可提取的指定参数包括：基本工资、交通补贴、专业证书补贴、单位社保公积金月金额、单位社保公积金比例、餐补、租房补贴、非货币性福利、探亲福利费、专利奖金、补偿金、体检费、团建费、补充医疗、入职月份、在岗月数、绩效核算月数、绩效折扣比例、社保公积金年度上涨比例、工会经费计提比例。
+
+            3. 指定参数必须输出为数组，每项格式为{字段: 字段名称, 数值: 数字}。用户没有明确指定的参数不要加入数组，严禁模型猜测金额；空数组表示全部参考底表。
+
+            4. “所有人员/全部待招人员”的条件写入全局指定参数；部门或岗位条件写入对应部门的指定参数；针对第N名人员的条件写入相应schedule的指定参数。
+
+            5. 金额统一输出为元。用户说“万元”时乘10000；月度项目保留月金额，年度或一次性项目保留每人金额。
+
+            6. 比例统一输出为小数，例如48%输出0.48。社保公积金比例与社保公积金月金额不可混淆。
+
+            7. 每个部门生成不超过待招人数的schedules；每条代表一名拟招聘人员，并建议入职月份、在岗月数、绩效核算月数。
+
+            8. 建议在岗月数=13-建议入职月份；绩效核算月数为0至在岗月数。
+
+            9. 不得根据性别、年龄、民族、政治面貌提出建议。
+
+            10. recommendations给出3至6条建议；只输出Schema字段。'
+        selected: true
+        structured_output:
+          schema:
+            properties:
+              budget_balance:
+                type: number
+              departments:
+                items:
+                  properties:
+                    priority:
+                      type: string
+                    schedules:
+                      items:
+                        properties:
+                          建议入职月份:
+                            type: number
+                          建议在岗月数:
+                            type: number
+                          指定参数:
+                            items:
+                              properties:
+                                字段:
+                                  enum:
+                                  - 基本工资
+                                  - 交通补贴
+                                  - 专业证书补贴
+                                  - 单位社保公积金月金额
+                                  - 单位社保公积金比例
+                                  - 餐补
+                                  - 租房补贴
+                                  - 非货币性福利
+                                  - 探亲福利费
+                                  - 专利奖金
+                                  - 补偿金
+                                  - 体检费
+                                  - 团建费
+                                  - 补充医疗
+                                  - 入职月份
+                                  - 在岗月数
+                                  - 绩效核算月数
+                                  - 绩效折扣比例
+                                  - 社保公积金年度上涨比例
+                                  - 工会经费计提比例
+                                  type: string
+                                数值:
+                                  type: number
+                              required:
+                              - 字段
+                              - 数值
+                              type: object
+                            type: array
+                          绩效核算月数:
+                            type: number
+                          说明:
+                            type: string
+                        required:
+                        - 建议入职月份
+                        - 建议在岗月数
+                        - 绩效核算月数
+                        - 说明
+                        - 指定参数
+                        type: object
+                      type: array
+                    一级部门:
+                      type: string
+                    二级部门:
+                      type: string
+                    人员类型:
+                      type: string
+                    公司主体:
+                      type: string
+                    学历要求:
+                      type: string
+                    岗位偏好:
+                      type: string
+                    待招人数:
+                      type: number
+                    指定参数:
+                      items:
+                        properties:
+                          字段:
+                            enum:
+                            - 基本工资
+                            - 交通补贴
+                            - 专业证书补贴
+                            - 单位社保公积金月金额
+                            - 单位社保公积金比例
+                            - 餐补
+                            - 租房补贴
+                            - 非货币性福利
+                            - 探亲福利费
+                            - 专利奖金
+                            - 补偿金
+                            - 体检费
+                            - 团建费
+                            - 补充医疗
+                            - 入职月份
+                            - 在岗月数
+                            - 绩效核算月数
+                            - 绩效折扣比例
+                            - 社保公积金年度上涨比例
+                            - 工会经费计提比例
+                            type: string
+                          数值:
+                            type: number
+                        required:
+                        - 字段
+                        - 数值
+                        type: object
+                      type: array
+                    说明:
+                      type: string
+                    费用类别:
+                      type: string
+                  required:
+                  - 一级部门
+                  - 二级部门
+                  - 待招人数
+                  - 岗位偏好
+                  - 学历要求
+                  - 人员类型
+                  - 公司主体
+                  - 费用类别
+                  - priority
+                  - 说明
+                  - 指定参数
+                  - schedules
+                  type: object
+                type: array
+              recommendations:
+                items:
+                  type: string
+                type: array
+              warnings:
+                items:
+                  type: string
+                type: array
+              全局指定参数:
+                items:
+                  properties:
+                    字段:
+                      enum:
+                      - 基本工资
+                      - 交通补贴
+                      - 专业证书补贴
+                      - 单位社保公积金月金额
+                      - 单位社保公积金比例
+                      - 餐补
+                      - 租房补贴
+                      - 非货币性福利
+                      - 探亲福利费
+                      - 专利奖金
+                      - 补偿金
+                      - 体检费
+                      - 团建费
+                      - 补充医疗
+                      - 入职月份
+                      - 在岗月数
+                      - 绩效核算月数
+                      - 绩效折扣比例
+                      - 社保公积金年度上涨比例
+                      - 工会经费计提比例
+                      type: string
+                    数值:
+                      type: number
+                  required:
+                  - 字段
+                  - 数值
+                  type: object
+                type: array
+            required:
+            - budget_balance
+            - 全局指定参数
+            - departments
+            - recommendations
+            - warnings
+            type: object
+        structured_output_enabled: true
+        title: 生成招聘优化计划
+        type: llm
+        vision:
+          enabled: false
+      height: 148
+      id: hire_llm
+      position:
+        x: -190
+        y: -1448
+      positionAbsolute:
+        x: -190
+        y: -1448
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "import json\n\ndef main(budget_records=None):\n    try: rows = json.loads(budget_records)\
+          \ if isinstance(budget_records, str) else (budget_records or [])\n    except\
+          \ Exception: rows = []\n\n    def text(v): return str(v or \"\").strip()\n\
+          \    def num(v):\n        try: return float(v or 0)\n        except Exception:\
+          \ return 0.0\n    def median(values, include_zero=False):\n        values\
+          \ = sorted(num(v) for v in values if include_zero or num(v) > 0)\n     \
+          \   return values[len(values)//2] if values else 0\n    def mode(group,\
+          \ field):\n        counts = {}\n        for row in group:\n            value\
+          \ = text(row.get(field))\n            if value: counts[value] = counts.get(value,\
+          \ 0) + 1\n        return sorted(counts, key=lambda value: (-counts[value],\
+          \ value))[0] if counts else \"\"\n\n    employees = [row for row in rows\
+          \ if isinstance(row, dict) and not text(row.get(\"姓名\")).startswith(\"待招\"\
+          ) and not text(row.get(\"姓名\")).startswith(\"待优化\")]\n    groups = {}\n\
+          \    for row in employees:\n        d1 = text(row.get(\"一级部门\")) or \"未分类\"\
+          \n        d2 = text(row.get(\"二级部门\")) or d1\n        groups.setdefault((d1,\
+          \ d2), []).append(row)\n\n    summaries = []\n    for (d1, d2), group in\
+          \ groups.items():\n        summaries.append({\n            \"一级部门\": d1,\
+          \ \"二级部门\": d2, \"样本人数\": len(group),\n            \"常见岗位\": sorted({text(row.get(\"\
+          岗位\")) for row in group if text(row.get(\"岗位\"))}),\n            \"典型学历\"\
+          : mode(group, \"学历\"), \"典型人员类型\": mode(group, \"人员类型\"),\n            \"\
+          典型公司主体\": mode(group, \"公司主体\"), \"典型费用类别\": mode(group, \"费用类别\"),\n  \
+          \          \"基本工资中位数\": median([row.get(\"基本工资(元)\") for row in group]),\n\
+          \            \"交通补贴典型值\": median([row.get(\"交通补贴\") for row in group], True),\n\
+          \            \"专业证书补贴典型值\": median([row.get(\"专业证书补贴\") for row in group],\
+          \ True),\n            \"月餐补典型值\": median([row.get(\"餐补（输入）\") for row in\
+          \ group], True),\n            \"月租房补贴典型值\": median([row.get(\"租房补贴\") for\
+          \ row in group], True),\n            \"绩效折扣比例典型值\": median([row.get(\"绩效折扣比例\"\
+          ) for row in group], True),\n            \"社保上涨比例典型值\": median([row.get(\"\
+          社保公积金年度上涨比例\") for row in group]) or 1,\n            \"工会经费比例典型值\": median([row.get(\"\
+          工会经费计提比例\") for row in group], True),\n        })\n\n    return {\"reference_summary\"\
+          : json.dumps({\n        \"部门成本参考\": summaries,\n        \"计算边界\": [\n  \
+          \          \"目前只计算人工成本合计，不生成业务线投入和分摊。\",\n            \"基本工资采用可比人员中位数；政策性补贴采用典型值。\"\
+          ,\n            \"单位社保公积金按基本工资乘48%重新计算。\",\n            \"专利奖金和补偿金属于偶发项目，新招聘基准方案默认0。\"\
+          ,\n            \"在岗月数由建议入职月份推导，取1至12个月。\"\n        ]\n    }, ensure_ascii=False)}\n"
+        code_language: python3
+        desc: 从上传底表提取部门基准和既有待招样本，供模型生成招聘计划。
+        outputs:
+          reference_summary:
+            children: null
+            type: string
+        selected: false
+        title: 汇总招聘参考数据
+        type: code
+        variables:
+        - value_selector:
+          - '1784166032256'
+          - budget_records
+          value_type: array[object]
+          variable: budget_records
+      height: 96
+      id: hire_prepare
+      position:
+        x: -520
+        y: -1440
+      positionAbsolute:
+        x: -520
+        y: -1440
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        cases:
+        - case_id: info
+          conditions:
+          - comparison_operator: contains
+            id: route-info
+            value: info
+            varType: string
+            variable_selector:
+            - route_intent
+            - route
+          id: info
+          logical_operator: and
+        - case_id: cost
+          conditions:
+          - comparison_operator: contains
+            id: route-cost
+            value: cost
+            varType: string
+            variable_selector:
+            - route_intent
+            - route
+          id: cost
+          logical_operator: and
+        - case_id: hire
+          conditions:
+          - comparison_operator: contains
+            id: route-hire
+            value: hire
+            varType: string
+            variable_selector:
+            - route_intent
+            - route
+          id: hire
+          logical_operator: and
+        selected: false
+        title: 按查询意图分流
+        type: if-else
+      height: 220
+      id: route_branch
+      position:
+        x: -906.3144596151109
+        y: -842.5005544173306
+      positionAbsolute:
+        x: -906.3144596151109
+        y: -842.5005544173306
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "def main(query=None):\n    text = str(query or \"\").strip()\n    hire_words\
+          \ = [\"新增人员\", \"增员\", \"招聘优化\", \"招聘计划\", \"待招人数\", \"待招聘\", \"预算结余\",\
+          \ \"招聘人数\", \"人员扩编\"]\n    cost_words = [\"人力成本\", \"人工成本\", \"成本\", \"\
+          薪酬总额\", \"年度总薪酬\", \"费用合计\", \"预算\"]\n    if any(word in text for word in\
+          \ hire_words):\n        route = \"hire\"\n        label = \"动态招聘规划\"\n \
+          \   elif any(word in text for word in cost_words):\n        route = \"cost\"\
+          \n        label = \"人力成本预算\"\n    else:\n        route = \"info\"\n    \
+          \    label = \"人员信息检索\"\n    return {\"route\": route, \"route_label\":\
+          \ label, \"message\": \"已识别为\" + label}\n"
+        code_language: python3
+        outputs:
+          message:
+            children: null
+            type: string
+          route:
+            children: null
+            type: string
+          route_label:
+            children: null
+            type: string
+        selected: false
+        title: 识别查询意图
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+      height: 52
+      id: route_intent
+      position:
+        x: -1297.8701248258174
+        y: -639.4582303435656
+      positionAbsolute:
+        x: -1297.8701248258174
+        y: -639.4582303435656
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    viewport:
+      x: 931.1847996943042
+      y: 873.707953501233
+      zoom: 0.5000000000000002
+  rag_pipeline_variables: []

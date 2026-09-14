@@ -1,0 +1,22 @@
+# 输出目录
+output/
+
+# 凭证文件
+credentials.bat
+.env
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# Dify DSL 中可能生成的临时文件
+*.tmp
