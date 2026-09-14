@@ -1,0 +1,26 @@
+# 财务数据与生成结果
+output/
+data/
+*.xlsx
+*.xls
+*.csv
+*.tsv
+*.pdf
+
+# 凭证与本机配置
+.env
+.env.*
+credentials.*
+
+# 缓存与临时文件
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.~*
+*.inspect.ndjson
+*.log
+
+# 编辑器本机状态
+.idea/
+*.swp

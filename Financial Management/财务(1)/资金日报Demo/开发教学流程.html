@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>财务小工具开发教学流程</title>
+  <style>
+    :root { --ink:#14233b; --muted:#637083; --navy:#12355b; --blue:#2b74bd; --sky:#eaf4ff; --mint:#dff5e9; --gold:#f6b746; --line:#dce5ef; --paper:#fffdf9; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif; background:linear-gradient(135deg,#f4f8fc 0%,#fbf7ed 100%); line-height:1.65; }
+    .wrap { width:min(1120px,calc(100% - 32px)); margin:auto; }
+    header { padding:70px 0 54px; color:#fff; background:radial-gradient(circle at 80% 18%,#3e93d4 0 9%,transparent 10%),linear-gradient(125deg,#102a49,#1f608f); overflow:hidden; }
+    .eyebrow { display:inline-block; padding:5px 11px; border:1px solid #8fc7ee; border-radius:999px; color:#d9f0ff; font-size:14px; letter-spacing:.08em; }
+    h1 { margin:16px 0 10px; max-width:780px; font-size:clamp(32px,5vw,54px); line-height:1.18; letter-spacing:-.04em; }
+    header p { margin:0; max-width:700px; color:#d5e9f6; font-size:18px; }
+    nav { position:sticky; top:0; z-index:5; backdrop-filter:blur(10px); background:rgba(255,253,249,.9); border-bottom:1px solid var(--line); }
+    nav .wrap { display:flex; align-items:center; gap:20px; overflow:auto; white-space:nowrap; padding:12px 0; }
+    nav a { color:var(--muted); text-decoration:none; font-size:14px; }
+    nav a:hover { color:var(--blue); }
+    main { padding:44px 0 78px; }
+    section { scroll-margin-top:70px; margin:0 0 42px; }
+    .section-kicker { color:var(--blue); font-size:14px; font-weight:700; letter-spacing:.12em; }
+    h2 { margin:4px 0 14px; font-size:clamp(25px,3.2vw,36px); line-height:1.25; }
+    .lead { max-width:820px; margin:0; color:#435168; font-size:17px; }
+    .card { background:rgba(255,255,255,.9); border:1px solid var(--line); border-radius:18px; box-shadow:0 12px 28px rgba(26,54,84,.06); }
+    .principle { display:grid; grid-template-columns:1.1fr .9fr; gap:22px; margin-top:22px; padding:26px; }
+    .quote { padding:18px 20px; background:var(--sky); border-left:5px solid var(--blue); border-radius:0 12px 12px 0; font-size:18px; }
+    .flow { display:flex; flex-wrap:wrap; align-items:center; gap:9px; padding:20px; background:#102a49; color:#fff; border-radius:14px; font-weight:700; }
+    .flow span { padding:8px 11px; background:rgba(255,255,255,.12); border-radius:8px; }
+    .flow b { color:#8bd3ff; }
+    .steps { position:relative; margin-top:26px; padding-left:26px; }
+    .steps::before { content:""; position:absolute; left:9px; top:22px; bottom:22px; width:2px; background:linear-gradient(var(--blue),#9bc9ef); }
+    .step { position:relative; margin:0 0 18px; padding:21px 23px; }
+    .step::before { content:""; position:absolute; left:-25px; top:26px; width:17px; height:17px; border:4px solid var(--blue); border-radius:50%; background:var(--paper); }
+    .step h3 { margin:0 0 6px; font-size:20px; }
+    .step p { margin:0; color:var(--muted); }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; }
+    .tile { padding:22px; }
+    .tile .num { display:block; color:var(--blue); font-size:13px; font-weight:800; letter-spacing:.1em; }
+    .tile h3 { margin:6px 0 7px; font-size:20px; }
+    .tile p { margin:0; color:var(--muted); font-size:15px; }
+    .mapping { width:100%; margin-top:18px; overflow:hidden; border-collapse:separate; border-spacing:0; border:1px solid var(--line); border-radius:14px; background:#fff; }
+    th,td { padding:13px 15px; text-align:left; border-bottom:1px solid var(--line); }
+    th { color:var(--navy); background:#e9f4fc; font-size:14px; }
+    tr:last-child td { border-bottom:0; }
+    code { padding:2px 6px; border-radius:5px; background:#edf2f7; color:#27425e; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9em; }
+    .rule-path { margin-top:22px; padding:24px; background:linear-gradient(120deg,#f2fbf7,#fbfffd); border-color:#c8e7d5; }
+    .rule-row { display:grid; grid-template-columns:130px 1fr; gap:14px; padding:12px 0; border-bottom:1px dashed #b9dac7; }
+    .rule-row:last-child { border-bottom:0; }
+    .tag { align-self:start; padding:3px 9px; width:max-content; border-radius:999px; color:#17623b; background:var(--mint); font-size:13px; font-weight:700; }
+    details { margin-top:20px; overflow:hidden; }
+    summary { cursor:pointer; padding:17px 20px; list-style:none; font-weight:800; background:#fff8e7; }
+    summary::-webkit-details-marker { display:none; }
+    summary::after { content:"＋"; float:right; color:#9a6b15; font-size:20px; line-height:1; }
+    details[open] summary::after { content:"－"; }
+    .detail-body { padding:0 20px 20px; background:#fffdf9; color:var(--muted); }
+    .detail-body ul { margin:10px 0 0; padding-left:22px; }
+    .stages { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:20px; }
+    .stage { min-height:205px; padding:22px; border-radius:16px; background:#fff; border:1px solid var(--line); }
+    .stage:nth-child(1) { border-top:5px solid #4e9ada; }
+    .stage:nth-child(2) { border-top:5px solid #44a479; }
+    .stage:nth-child(3) { border-top:5px solid var(--gold); }
+    .stage strong { display:block; margin-bottom:8px; font-size:19px; }
+    .stage p { margin:0; color:var(--muted); }
+    .roles { display:grid; grid-template-columns:1fr 1fr; margin-top:20px; overflow:hidden; }
+    .roles article { padding:24px; }
+    .roles article:first-child { background:#eaf4ff; border-radius:16px 0 0 16px; }
+    .roles article:last-child { background:#effaf4; border-radius:0 16px 16px 0; }
+    .roles h3 { margin:0 0 10px; }
+    .roles ul { margin:0; padding-left:20px; }
+    .checklist { margin-top:20px; padding:24px; }
+    .checklist li { margin:8px 0; }
+    .finish { padding:34px; text-align:center; color:#fff; background:linear-gradient(135deg,#143a63,#2374a9); border-radius:20px; }
+    .finish h2 { margin:0 0 10px; }
+    .finish p { max-width:720px; margin:0 auto; color:#d9ecfa; font-size:17px; }
+    footer { padding:22px 0 34px; text-align:center; color:#7a8798; font-size:13px; }
+    @media (max-width:760px) { .principle,.grid,.stages,.roles { grid-template-columns:1fr; } .roles article:first-child,.roles article:last-child { border-radius:0; } .rule-row { grid-template-columns:1fr; gap:6px; } header { padding:52px 0 42px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <span class="eyebrow">从业务动作到可维护工具</span>
+      <h1>财务小工具开发<br>教学流程</h1>
+      <p>先把人工工作说清楚，再把确定的规则交给程序执行；让业务规则沉淀下来，而不是只依赖某个人的经验。</p>
+    </div>
+  </header>
+
+  <nav><div class="wrap">
+    <a href="#principle">开发原则</a><a href="#process">八步流程</a><a href="#mapping">字段与规则</a><a href="#stages">分期建设</a><a href="#roles">分工与测试</a>
+  </div></nav>
+
+  <main class="wrap">
+    <section id="principle">
+      <span class="section-kicker">01 / 先理解问题</span>
+      <h2>代码不是起点，业务流程才是</h2>
+      <p class="lead">开发财务工具前，先把每天的人工动作、输入文件、输出结果、判断规则和异常情况拆开。规则清楚的自动做，不确定的保留人工审核。</p>
+      <div class="card principle">
+        <div class="quote">“我们不是让程序替财务判断，而是让程序稳定完成重复、确定、可追溯的动作。”</div>
+        <div class="flow"><span>梳理业务</span><b>→</b><span>固定输入输出</span><b>→</b><span>设计规则</span><b>→</b><span>制作 Demo</span><b>→</b><span>测试迭代</span></div>
+      </div>
+    </section>
+
+    <section id="process">
+      <span class="section-kicker">02 / 八步开发法</span>
+      <h2>从人工操作到可运行工具</h2>
+      <div class="steps">
+        <article class="card step"><h3>第一步：写下现有人工流程</h3><p>先回答：数据从哪里来？最后要交付什么？每天重复做什么？哪些地方必须人工判断？以资金日报为例，就是司库导出、收付分类、余额汇总和日报核对。</p></article>
+        <article class="card step"><h3>第二步：拆分输入、规则与结果</h3><p>原始数据不修改，业务规则单独维护，结果文件单独输出。这样既便于追溯，也能避免每天重新配置。</p></article>
+        <article class="card step"><h3>第三步：建立字段映射</h3><p>逐列确认“从哪里来、写到哪里去、是否需要公式”。字段映射解决数据搬运问题，不负责业务分类。</p></article>
+        <article class="card step"><h3>第四步：按确定性设计规则</h3><p>把高确定性规则放前面；模糊、冲突或没有规则的情况进入待审核清单，绝不为了自动化率而猜测。</p></article>
+        <article class="card step"><h3>第五步：先做最小 Demo</h3><p>第一版只验证“能否正确读取、分类并输出收付明细”。不急于先做大网站、复杂权限或透视表自动刷新。</p></article>
+        <article class="card step"><h3>第六步：用异常案例测试</h3><p>正常数据只能证明工具能跑；冲突摘要、重复数据、金额异常、规则缺失等才能验证工具不会误处理。</p></article>
+        <article class="card step"><h3>第七步：接入正式总表</h3><p>将确认后的结果去重并追加到历史明细库，再由公式和汇总表生成日报。历史数据只能追加，不应被重写。</p></article>
+        <article class="card step"><h3>第八步：最后再接入前端与 Git</h3><p>当核心规则稳定后，再将 Python 能力封装成接口，由公司页面负责上传、展示状态和下载结果。</p></article>
+      </div>
+    </section>
+
+    <section id="mapping">
+      <span class="section-kicker">03 / 结构化设计</span>
+      <h2>先让每一列都有清楚来源</h2>
+      <div class="grid">
+        <article class="card tile"><span class="num">INPUT</span><h3>当天司库文件</h3><p>仅保存当天原始交易。程序读取，不覆盖，不靠人工修改原始记录。</p></article>
+        <article class="card tile"><span class="num">RULE</span><h3>规则配置文件</h3><p>保存字段映射、特殊摘要规则和模板；它是可维护的“业务说明书”。</p></article>
+        <article class="card tile"><span class="num">OUTPUT</span><h3>资金日报总表</h3><p>保存历史收付明细，并通过公式或透视表形成日报和余额监控。</p></article>
+      </div>
+      <table class="mapping">
+        <thead><tr><th>收付明细字段</th><th>数据来源</th><th>处理方式</th></tr></thead>
+        <tbody>
+          <tr><td>日期、年-月</td><td>司库交易日期</td><td>直接写入并格式化</td></tr>
+          <tr><td>银行账号、往来单位</td><td>司库银行账号、对方户名</td><td>直接映射</td></tr>
+          <tr><td>收入、支出</td><td>司库收款金额、付款金额</td><td>直接映射</td></tr>
+          <tr><td>编码、收付项目</td><td>摘要与规则库</td><td>自动分类或转人工审核</td></tr>
+          <tr><td>余额</td><td>上笔余额、收入、支出</td><td>公式计算</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <span class="section-kicker">04 / 规则设计</span>
+      <h2>先确定，再兜底</h2>
+      <div class="card rule-path">
+        <div class="rule-row"><span class="tag">收款</span><div><strong>收款金额有值</strong><br>直接归为 <code>1、销售收款</code>。</div></div>
+        <div class="rule-row"><span class="tag">付款标注</span><div><strong>摘要只含“采购 / 费用 / 内部往来”之一</strong><br>直接归类为采购付款、费用支出或内部往来。</div></div>
+        <div class="rule-row"><span class="tag">固定业务</span><div><strong>没有人工标注</strong><br>查询“特殊摘要规则”，例如 <code>包含｜网银服务年费｜3｜3、费用支出</code>。</div></div>
+        <div class="rule-row"><span class="tag">人工审核</span><div><strong>多个标注、规则冲突或没有规则</strong><br>进入 <code>H_I待配置</code>，由财务确认后再沉淀为规则。</div></div>
+      </div>
+      <details class="card"><summary>为什么不让程序自动猜？</summary><div class="detail-body">资金分类会影响日报口径。错误自动化比少量人工审核风险更高，因此采用“高确定性自动、低确定性待审核”的保守设计。每一次确认都可以成为下一次的规则，让工具逐步成长。</div></details>
+    </section>
+
+    <section id="stages">
+      <span class="section-kicker">05 / 分期建设</span>
+      <h2>先跑通，再自动化</h2>
+      <div class="stages">
+        <article class="stage"><strong>第一期：收付明细 Demo</strong><p>上传司库文件，自动完成字段填充与 H/I 分类，输出 <code>H_I待配置</code>。先验证规则、格式和异常处理。</p></article>
+        <article class="stage"><strong>第二期：接入资金日报总表</strong><p>自动去重、追加历史收付明细；将上一日 B18 写入 B2，更新 A1 日期，输出新的总工作簿。</p></article>
+        <article class="stage"><strong>第三期：前端与汇总自动化</strong><p>接入公司 UI，完成上传、进度展示和下载。透视表刷新根据实际 Windows/WPS/Excel 环境再确定方案。</p></article>
+      </div>
+    </section>
+
+    <section class="finish">
+      <h2>一句话总结</h2>
+      <p>开发财务小工具，不是先学会多少代码，而是先把人工业务讲清楚：输入是什么、结果是什么、规则是否确定、异常由谁判断。业务梳理清楚后，代码只是把规则稳定地执行出来。</p>
+    </section>
+  </main>
+  <footer>资金日报工具开发教学 · 可本地打开浏览</footer>
+</body>
+</html>

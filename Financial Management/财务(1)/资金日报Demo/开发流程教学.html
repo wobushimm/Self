@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>从需求到上线：开发流程讲解</title>
+  <style>
+    :root{--ink:#18263a;--muted:#64748b;--blue:#2563eb;--cyan:#0ea5b7;--pale:#eef6ff;--line:#dce7f4;--bg:#f7fafc;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.hero{background:radial-gradient(circle at 85% 10%,#3ca3e833,transparent 28%),linear-gradient(120deg,#12345c,#1c5794);color:white;padding:66px 24px 76px}.wrap{max-width:1060px;margin:auto}.eyebrow{font-size:13px;letter-spacing:1.3px;opacity:.72}.hero h1{font-size:42px;line-height:1.25;margin:12px 0}.hero p{max-width:740px;font-size:18px;color:#dcecff;margin:0}.quick{margin-top:-32px;position:relative}.quote{background:#fff;border:1px solid var(--line);box-shadow:0 12px 30px #1c3b5e14;border-radius:14px;padding:22px 25px;font-size:18px}.quote b{color:var(--blue)}main{padding:30px 24px 70px}h2{font-size:26px;margin:50px 0 15px}h3{font-size:18px;margin:0 0 7px}.lead{color:var(--muted);margin-top:0}.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:22px}.step{position:relative;background:white;border:1px solid var(--line);border-radius:12px;padding:17px 13px;min-height:126px}.num{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#e8f1ff;color:#1956b7;font-weight:700;font-size:13px;margin-bottom:9px}.step b{display:block;font-size:14px}.step span{display:block;font-size:12px;line-height:1.55;color:var(--muted);margin-top:4px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--white);border:1px solid var(--line);border-radius:13px;padding:22px}.tag{display:inline-block;background:#e9f8fb;color:#087384;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:8px}.card p{margin:5px 0;color:#44576d}.callout{border-left:4px solid var(--cyan);background:#ecfeff;padding:15px 17px;border-radius:0 10px 10px 0;margin-top:15px;color:#285565}.sample{background:#132d4b;color:#e6f1ff;border-radius:13px;padding:21px 23px;white-space:pre-line;font-size:14px}.sample b{color:#7dd3fc}.table{border-collapse:collapse;width:100%;background:white;border:1px solid var(--line);border-radius:13px;overflow:hidden}.table th,.table td{border-bottom:1px solid var(--line);padding:13px 15px;text-align:left;vertical-align:top}.table th{background:#f1f6fc;color:#4b6077;font-size:13px}.table tr:last-child td{border:0}.final{margin-top:42px;border-radius:15px;background:linear-gradient(120deg,#edf7ff,#effcf8);border:1px solid #d3edeb;padding:25px}.final h2{margin:0 0 9px}.btn{border:0;border-radius:8px;background:var(--blue);color:white;padding:10px 15px;font:inherit;cursor:pointer;margin-top:14px}.toast{display:none;position:fixed;right:22px;bottom:22px;background:#16385f;color:#fff;border-radius:8px;padding:11px 15px;font-size:14px}.toast.show{display:block}@media(max-width:760px){.hero h1{font-size:31px}.flow{grid-template-columns:1fr}.grid{grid-template-columns:1fr}h2{font-size:23px}}
+  </style>
+</head>
+<body>
+  <header class="hero"><div class="wrap"><div class="eyebrow">一页看懂 · 产品开发方法</div><h1>从需求到上线<br>一个网站是怎样做出来的</h1><p>开发不是急着写代码，而是先搞清楚要解决什么问题，再用最小可行的方案验证方向，最后一步步做成正式系统。</p></div></header>
+  <main><div class="wrap"><section class="quick"><div class="quote">记住这一句就够了：<b>先听清需求，再画清流程；先做小样，再确认方向；最后才做正式系统。</b></div></section>
+
+    <h2>全流程，先看一遍</h2><p class="lead">以“月度资金计划收集与汇总工具”为例，开发可分为五个阶段。</p>
+    <div class="flow"><div class="step"><div class="num">1</div><b>理解需求</b><span>弄明白原来哪里麻烦，要解决什么。</span></div><div class="step"><div class="num">2</div><b>设计流程</b><span>确定谁操作、按什么顺序操作。</span></div><div class="step"><div class="num">3</div><b>制作小样</b><span>先做可点击的演示版，验证方向。</span></div><div class="step"><div class="num">4</div><b>确认规则</b><span>让业务人员确认字段、审批和报表。</span></div><div class="step"><div class="num">5</div><b>正式开发</b><span>接入数据、权限、审批，测试后上线。</span></div></div>
+
+    <h2>第一步：先听懂需求</h2><div class="grid"><article class="card"><div class="tag">原始需求</div><h3>需求方通常怎么说？</h3><p>“每月要收集很多部门的 Excel，财务人工汇总很麻烦，希望能在线填报、自动汇总、按固定格式导出。”</p></article><article class="card"><div class="tag">翻译后的问题</div><h3>开发时要怎样理解？</h3><p>现在的问题不是“缺一个网页”，而是 Excel 来回传递、数据容易漏、人工相加很慢、出了问题不容易追溯。</p></article></div><div class="callout"><b>这一阶段要问：</b>现在怎么做？谁在做？最痛苦的是哪一步？最后想看到什么表？先把问题问清楚，才不会做出一个“看起来漂亮、实际用不上”的系统。</div>
+
+    <h2>第二步：把人和流程理清楚</h2><p class="lead">先不画页面，先看事情从谁开始、又交给谁结束。</p><div class="sample"><b>本例的业务流程：</b>
+财务发起本月任务
+        ↓
+各部门填写预计收款、付款
+        ↓
+系统先检查日期、金额、附件
+        ↓
+财务审核：通过或退回
+        ↓
+通过的数据自动合并成总表
+        ↓
+管理人员查看资金够不够用</div>
+    <table class="table" style="margin-top:16px"><thead><tr><th>角色</th><th>主要工作</th><th>需要的页面</th></tr></thead><tbody><tr><td>填报人员</td><td>填写本部门预计收钱、花钱的计划</td><td>部门计划填报</td></tr><tr><td>财务人员</td><td>检查金额、日期和依据，决定通过或退回</td><td>财务审核</td></tr><tr><td>管理人员</td><td>看全公司预计资金流入、流出与结余</td><td>月度任务总览、汇总表</td></tr></tbody></table>
+
+    <h2>第三步：先做 MVP 小样</h2><div class="grid"><article class="card"><div class="tag">MVP 是什么？</div><h3>最小可行产品</h3><p>不是做完整系统，而是先做最核心、能让人实际点击体验的一小部分，用来确认方向是否正确。</p></article><article class="card"><div class="tag">本例先做什么？</div><h3>先跑通一个完整闭环</h3><p>填一笔计划 → 提交审核 → 审核通过或退回 → 自动进入汇总表 → 导出表格。</p></article></div><div class="callout"><b>小样的价值：</b>光说“我们会自动汇总”，别人很难想象。能点的页面摆在眼前，业务人员马上就能指出哪里不对、少了什么。</div>
+
+    <h2>第四步：把页面拆成一个个业务问题</h2><p class="lead">每一个按钮、每一个输入框，都应该有一个明确的理由。</p><table class="table"><thead><tr><th>页面内容</th><th>它解决的问题</th><th>为什么需要它</th></tr></thead><tbody><tr><td>填报单位</td><td>这笔钱是谁报的？</td><td>后续可以按单位汇总和追问。</td></tr><tr><td>资金方向</td><td>钱是进来还是出去？</td><td>系统才能计算这个月资金是否充足。</td></tr><tr><td>预计发生日期</td><td>哪天到账或付款？</td><td>公司要按日期安排资金，而不只是看总金额。</td></tr><tr><td>事项说明、附件</td><td>这笔钱依据是什么？</td><td>便于审核，避免凭感觉填数字。</td></tr><tr><td>审核按钮</td><td>谁确认这笔钱可以进入正式总表？</td><td>防止未经核实的数据影响决策。</td></tr></tbody></table>
+
+    <h2>第五步：加上防错检查</h2><p class="lead">系统不能只收数据，还要先帮人发现常见错误。这些自动检查叫“校验规则”。</p><div class="grid"><article class="card"><h3>例子一：日期检查</h3><p>要填 9 月资金计划，却填了 10 月日期，系统就提示修改，防止数据跑到错误月份。</p></article><article class="card"><h3>例子二：大额提醒</h3><p>单笔金额达到设定标准时，系统提醒财务重点核实。这不是不让提交，而是避免遗漏重要事项。</p></article><article class="card"><h3>例子三：附件检查</h3><p>采购付款、融资还款等事项，如果没有合同或申请依据，系统提醒补充材料。</p></article><article class="card"><h3>例子四：重复检查</h3><p>同单位、同日期、同金额、同类别的数据重复出现时，系统提醒确认是否重复填报。</p></article></div>
+
+    <h2>第六步：拿小样确认，而不是自己猜</h2><div class="sample"><b>演示后要逐条确认的问题：</b>
+1. 最终导出的 Excel 长什么样？
+2. 哪些单位必须填？谁可以审核？
+3. 收款、付款应该分成哪些类别？
+4. 多大金额算“大额”？需要什么附件？
+5. 数据能否从 ERP、司库等系统自动带入？
+6. 退回后能否修改？每月什么时候截止、什么时候锁定？</div><div class="callout"><b>关键原则：</b>不要把没有确认的事情当成规定来开发。把问题列出来，得到业务确认后，再写进正式系统。</div>
+
+    <h2>第七步：从小样走向正式系统</h2><p class="lead">演示版主要验证流程；正式系统还要补齐真正可长期使用的能力。</p><table class="table"><thead><tr><th>演示小样</th><th>正式系统要补上的内容</th></tr></thead><tbody><tr><td>页面内放几条示例数据</td><td>接入数据库，数据保存后刷新也不会消失。</td></tr><tr><td>任何人都能操作</td><td>账号登录和权限控制：不同角色只能做各自该做的事。</td></tr><tr><td>点击“通过”即可改变状态</td><td>真实审批流、审核意见、退回路径、消息提醒。</td></tr><tr><td>只演示附件选择</td><td>真实上传、保存、查看和下载合同等材料。</td></tr><tr><td>导出简单表格</td><td>按财务确认的固定模板导出 Excel 或 PDF。</td></tr></tbody></table>
+
+    <h2>第八步：测试、上线、继续改</h2><div class="grid"><article class="card"><div class="tag">测试</div><h3>先确保做得对</h3><p>测试能不能提交、审核、汇总、导出；金额加总对不对；真实操作顺不顺手。</p></article><article class="card"><div class="tag">迭代</div><h3>上线不是结束</h3><p>根据实际使用情况继续优化：哪些字段总填错、哪个流程总卡住、还需要什么报表。</p></article></div>
+
+    <section class="final"><h2>一段可直接讲解的话</h2><p>“开发一个系统，第一步不是写代码，而是先弄清楚业务现在有什么麻烦。接着确定谁来操作、每个人按什么顺序操作，再先做一个可点击的小样。业务人员确认字段、规则和表格格式后，才做账号、数据保存、审批、导出等正式功能。最后经过测试上线，并根据实际使用不断改进。”</p><button class="btn" id="copy">复制这段讲解</button></section>
+  </div></main><div class="toast" id="toast">已复制到剪贴板</div>
+  <script>document.querySelector('#copy').onclick=async()=>{const text='开发一个系统，第一步不是写代码，而是先弄清楚业务现在有什么麻烦。接着确定谁来操作、每个人按什么顺序操作，再先做一个可点击的小样。业务人员确认字段、规则和表格格式后，才做账号、数据保存、审批、导出等正式功能。最后经过测试上线，并根据实际使用不断改进。';try{await navigator.clipboard.writeText(text);const t=document.querySelector('#toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}catch(e){alert(text)}};</script>
+</body>
+</html>
