@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal Weekly Report Assistant"
+  short_description: "Draft structured Chinese weekly reports from work notes"
+  default_prompt: "Use $weekly-report to draft this week’s concise Chinese work report from my notes."

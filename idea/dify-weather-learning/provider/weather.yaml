@@ -1,0 +1,17 @@
+identity:
+  author: local-learning
+  name: weather_learning
+  label:
+    en_US: Bad Weather
+    zh_Hans: 坏天气
+  description:
+    en_US: Look up current weather by city name with Open-Meteo.
+    zh_Hans: 使用 Open-Meteo 按城市名称查询当前天气。
+  icon: icon.svg
+  tags:
+    - weather
+tools:
+  - tools/get_current_weather.yaml
+extra:
+  python:
+    source: provider/weather.py

@@ -1,0 +1,26 @@
+identity:
+  name: get_weather_by_request
+  author: local-learning
+  label:
+    en_US: Get weather by natural-language request
+    zh_Hans: 自然语言查询天气
+description:
+  human:
+    en_US: Get weather, an hourly outlook, clothing advice, and mood index from a city and date request.
+    zh_Hans: 输入地点和日期，查询天气、未来数小时情况、穿衣建议与心情指数。
+  llm: Understand a natural-language weather request. Extract the city and a date such as today, tomorrow, the day after tomorrow, YYYY-MM-DD, or M月D日.
+parameters:
+  - name: query
+    type: string
+    required: true
+    label:
+      en_US: Weather request
+      zh_Hans: 天气查询
+    human_description:
+      en_US: For example, "Shanghai tomorrow's weather" or "北京 2026-08-08 天气".
+      zh_Hans: 例如“上海明天天气”或“北京 2026-08-08 天气”。
+    llm_description: The user's complete weather request. Pass the location and intended date without changing their meaning.
+    form: llm
+extra:
+  python:
+    source: tools/get_current_weather.py

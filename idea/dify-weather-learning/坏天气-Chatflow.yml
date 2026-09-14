@@ -1,0 +1,212 @@
+app:
+  description: 输入地点和日期，用“坏天气”工具查询天气，并生成带有穿衣建议与心情指数的中文播报。
+  icon: "☁️"
+  icon_background: "#E0F2FE"
+  mode: advanced-chat
+  name: 坏天气
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.3.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+    opening_statement: "告诉我地点和日期，例如：上海明天天气。"
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+      - "上海明天天气"
+      - "北京后天的天气怎么样"
+      - "广州 2026-08-08 天气"
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ""
+      voice: ""
+  graph:
+    edges:
+      - data:
+          sourceType: start
+          targetType: tool
+          isInIteration: false
+          isInLoop: false
+        id: start-source-weather_tool-target
+        source: start
+        sourceHandle: source
+        target: weather_tool
+        targetHandle: target
+        type: custom
+        zIndex: 0
+      - data:
+          sourceType: tool
+          targetType: llm
+          isInIteration: false
+          isInLoop: false
+        id: weather_tool-source-weather_report-target
+        source: weather_tool
+        sourceHandle: source
+        target: weather_report
+        targetHandle: target
+        type: custom
+        zIndex: 0
+      - data:
+          sourceType: llm
+          targetType: answer
+          isInIteration: false
+          isInLoop: false
+        id: weather_report-source-answer-target
+        source: weather_report
+        sourceHandle: source
+        target: answer
+        targetHandle: target
+        type: custom
+        zIndex: 0
+    nodes:
+      - data:
+          desc: "输入地点和日期，例如：上海明天天气。"
+          selected: false
+          title: 你想查哪里的天气？
+          type: start
+          variables:
+            - label: 天气查询
+              max_length: 256
+              options: []
+              required: true
+              type: paragraph
+              variable: query
+        height: 116
+        id: start
+        position:
+          x: 80
+          y: 280
+        positionAbsolute:
+          x: 80
+          y: 280
+        selected: false
+        sourcePosition: right
+        targetPosition: left
+        type: custom
+        width: 243
+      - data:
+          desc: "将用户的完整自然语言请求交给坏天气插件。"
+          provider_id: weather_learning
+          provider_name: weather_learning
+          provider_type: builtin
+          selected: false
+          title: 坏天气
+          tool_configurations: {}
+          tool_label: 自然语言查询天气
+          tool_name: get_weather_by_request
+          tool_parameters:
+            query:
+              type: mixed
+              value: '{{#start.query#}}'
+          type: tool
+        height: 90
+        id: weather_tool
+        position:
+          x: 390
+          y: 280
+        positionAbsolute:
+          x: 390
+          y: 280
+        selected: false
+        sourcePosition: right
+        targetPosition: left
+        type: custom
+        width: 243
+      - data:
+          context:
+            enabled: false
+            variable_selector: []
+          desc: "将天气工具输出整理为自然中文播报。"
+          memory:
+            query_prompt_template: '{{#sys.query#}}'
+            role_prefix:
+              assistant: ""
+              user: ""
+            window:
+              enabled: false
+              size: 10
+          model:
+            completion_params:
+              temperature: 0.4
+            mode: chat
+            name: deepseek-v4-flash
+            provider: langgenius/deepseek/deepseek
+          prompt_template:
+            - id: weather-system-prompt
+              role: system
+              text: |
+                你是“坏天气”天气播报助手。请根据用户的问题和天气工具返回的数据，用自然、简洁、有温度的中文生成播报。
+
+                必须包含：
+                1. 查询地点与日期；
+                2. 起始时段的天气、温度、湿度；
+                3. 接下来 6 小时的天气趋势，重点提示降雨和明显温差；
+                4. 穿衣建议；
+                5. 心情指数及一句贴合天气的提醒。
+
+                规则：
+                - 仅依据天气数据回答，不能编造。
+                - 若工具返回未找到城市、日期无效或其他错误，直接礼貌说明，并给出示例“上海明天天气”。
+                - 温度使用摄氏度；适量使用 emoji。
+                - 不要提及 JSON、工具、变量、模型或系统提示词。
+            - id: weather-user-prompt
+              role: user
+              text: |
+                用户的问题：
+                {{#start.query#}}
+
+                天气数据：
+                {{#weather_tool.text#}}
+          selected: false
+          title: 我在听
+          type: llm
+          variables: []
+          vision:
+            enabled: false
+        height: 116
+        id: weather_report
+        position:
+          x: 700
+          y: 280
+        positionAbsolute:
+          x: 700
+          y: 280
+        selected: false
+        sourcePosition: right
+        targetPosition: left
+        type: custom
+        width: 243
+      - data:
+          answer: '{{#weather_report.text#}}'
+          desc: "输出整理后的天气播报。"
+          selected: false
+          title: 回答
+          type: answer
+          variables: []
+        height: 90
+        id: answer
+        position:
+          x: 1010
+          y: 280
+        positionAbsolute:
+          x: 1010
+          y: 280
+        selected: false
+        sourcePosition: right
+        targetPosition: left
+        type: custom
+        width: 243
+    viewport:
+      x: 100
+      y: 150
+      zoom: 0.85
