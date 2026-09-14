@@ -1,0 +1,223 @@
+# 项目管理快报 — 数据源配置
+# 平台地址: https://api.example.com
+# API 前缀: /api/project-management/v1
+# 认证: 账号密码自动登录（Bearer Token + Session Cookie）
+#
+# 环境变量:
+#   PMO_API_USERNAME / PMO_API_PASSWORD  — 平台登录凭证
+#   QUALITY_API_BASE               — API 地址（可选，默认 api.example.com）
+
+# ============================================================
+# 全局平台配置
+# ============================================================
+platform:
+  name: "示例项目管理平台 (example-platform)"
+  base_url: "https://api.example.com"
+  api_prefix: "/api/project-management/v1"
+  auth:
+    login_url: "/api/auth/login"
+    username_env: "PMO_API_USERNAME"
+    password_env: "PMO_API_PASSWORD"
+    header_name: "Authorization"
+    header_prefix: "Bearer "
+
+# ============================================================
+# 数据源定义（10 个 API 端点）
+# ============================================================
+data_sources:
+
+  # ── 1. 项目主数据 ──
+  project_info:
+    name: "项目主数据"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/projects"
+      method: "get"
+      params:
+        id: "{project_id}"
+      response_array: "data.records"
+      key_fields: ["id", "code", "name", "managerUserName", "sysDept.deptName"]
+    description: "项目基本信息（编码、经理、部门、预算）"
+
+  # ── 2. 产品线看板（分摊后口径） ──
+  project_board:
+    name: "产品线看板（分摊后）"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/reports/project"
+      method: "post"
+      body:
+        projectIds: ["{project_id}"]
+        startMonth: "{settlement_month}"
+        endMonth: "{settlement_month}"
+        manHourType: 1
+        projectStatus: "1"
+      params:
+        page: 1
+        size: 10
+      response_array: "data.records"
+      key_fields:
+        - "actual_total_man_hour"
+        - "plan_total_man_hour"
+        - "actual_dev_cost"
+        - "plan_dev_cost"
+        - "actual_staff_cost"
+        - "plan_staff_cost"
+        - "task_count"
+        - "task_finish_count"
+        - "task_delay_count"
+        - "bug_leak_rate"
+        - "bug_close_rate"
+    description: "月度项目看板数据（分摊后口径），含工时/成本/任务/质量指标"
+    pages: ["P01", "P02"]
+
+  # ── 3. 月度看板（原始口径，回退用） ──
+  monthly_board:
+    name: "月度看板（原始口径）"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/reports/monthly"
+      method: "post"
+      body:
+        projectIds: ["{project_id}"]
+        startMonth: "{settlement_month}"
+        endMonth: "{settlement_month}"
+      params:
+        page: 1
+        size: 10
+    description: "月度看板原始口径，project report 不可用时回退"
+
+  # ── 4. 质量度量趋势（近12月） ──
+  quality_trend:
+    name: "质量度量趋势"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/quality/trends"
+      method: "get"
+      params:
+        projectCode: "{project_code}"
+        endMonth: "{settlement_month}-25"
+      response_array: "data"
+      key_fields:
+        - "statMonth"
+        - "reqVerifyRate"
+        - "bugCloseRate"
+        - "bugLeakRate"
+        - "bugResolveDuration"
+    description: "质量度量近12月趋势，含需求验证率/Bug关闭率/逃逸率/修复时长"
+    pages: ["P04", "P05", "P06"]
+
+  # ── 5. 质量度量分页详情（含原始计数） ──
+  quality_page:
+    name: "质量度量分页详情"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/quality/metrics"
+      method: "post"
+      body:
+        projectId: "{project_id}"
+        statDate: "{settlement_month}"
+        page: 1
+        size: 1
+      response_array: "data.records"
+      key_fields:
+        - "totalBugCount"
+        - "closedBugCount"
+        - "fieldBugCount"
+        - "bugResolveDuration"
+        - "bugResolveDurationExcludeRejectThrid"
+        - "bugCloseRate"
+        - "bugLeakRate"
+        - "reqVerifyRate"
+        - "totalReqCount"
+        - "passedReqCount"
+    description: "质量度量分页数据，含 Bug/需求原始计数和 MTTR 明细"
+    pages: ["P04", "P05"]
+    notes: "projectId 为字符串类型；statDate 格式 YYYY-MM-25；需双认证"
+
+  # ── 6. 人员工时（部门维度） ──
+  staff_workhours:
+    name: "部门人员工时"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/workhours/staff"
+      method: "get"
+      params:
+        deptIds: "{department_ids}"
+        startDate: "{date_from}"
+        endDate: "{date_to}"
+      response_array: "data"
+      key_fields: ["staffName", "deptName", "projectName", "manHours"]
+    description: "部门人员月度工时，按 projectName 本地过滤目标项目"
+    pages: ["P03"]
+
+  # ── 7. 工时明细（员工-项目-日粒度） ──
+  manhour_common_page:
+    name: "工时明细"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/workhours/entries"
+      method: "get"
+      params:
+        page: 1
+        size: 9999
+        startDate: "{date_from}"
+        endDate: "{date_to}"
+      response_array: "data.records"
+      key_fields: ["staffName", "projectName", "reportDate", "reportManHour"]
+    description: "员工-项目-日粒度工时明细，用于加班工时和跨项目投入计算"
+    pages: ["P03"]
+
+  # ── 8. 考勤明细（员工-日粒度） ──
+  attendance:
+    name: "考勤明细"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/attendance/entries"
+      method: "get"
+      params:
+        page: 1
+        size: 9999
+        startDate: "{date_from}"
+        endDate: "{date_to}"
+      response_array: "data.records"
+      key_fields: ["workDate", "staffName", "attendanceHour"]
+    description: "员工日粒度考勤数据，用于总可用工时计算"
+    pages: ["P03"]
+
+  # ── 9. 季度看板（跨月聚合） ──
+  quarterly_board:
+    name: "季度聚合看板"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/reports/project"
+      method: "post"
+      body:
+        projectIds: ["{project_id}"]
+        startMonth: "{start_month}"
+        endMonth: "{end_month}"
+        manHourType: 1
+        projectStatus: "1"
+      params:
+        page: 1
+        size: 10
+    description: "跨月季度聚合数据，可加指标为各月之和，比率指标由 API 重新计算"
+    notes: "季度 API 不返回 bug_total_count 字段"
+
+  # ── 10. 质量度量预警阈值 ──
+  quality_targets:
+    name: "质量度量预警阈值"
+    type: "api"
+    api:
+      url: "{base_url}{api_prefix}/quality/targets"
+      method: "get"
+      params:
+        page: 1
+        size: 10
+        projectId: 0
+      key_fields:
+        - "bugCloseRateTarget"
+        - "bugCloseRateWarn"
+        - "bugResolveDurationExcludeRejectThridTarget"
+        - "bugLeakRateTarget"
+    description: "指标预警等级判定阈值（目标值/预警值/干预值）"

@@ -1,0 +1,29 @@
+# 生成输出
+output/
+*.pdf
+*.html
+*.doc
+*.docx
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 临时文件
+*.tmp
+*.bak
+*.log
+
+# 凭证（防止泄露）
+credentials.bat
+.env
+.env.*
+!.env.example
+credentials.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store

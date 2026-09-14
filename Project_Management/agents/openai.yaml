@@ -1,0 +1,12 @@
+interface:
+  display_name: "项目管理快报"
+  short_description: "面向公司项目管理的月度结算快报，自动汇总质量、需求、缺陷和工时指标"
+  default_prompt: "Use $project-monthly-report to generate a monthly PMO report for a project and settlement month."
+  version: "0.3.0"
+  tools:
+    - list_projects
+    - fetch_project_data
+    - generate_html_report
+    - generate_pdf_report
+    - generate_metrics
+    - run_full_pipeline
