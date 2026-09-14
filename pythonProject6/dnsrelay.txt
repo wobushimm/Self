@@ -1,0 +1,3 @@
+0.0.0.0 www.666.com
+114.255.40.66 www.bupt.com.cn
+2001:db8::66 www.bupt.com.cn
